@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,17 +23,38 @@ public class RoomService implements IRoomService {
     private RoomRepository roomRepository;
 
     @Override
+    public List<RoomResponse> findAll() {
+        List<RoomResponse> result = new ArrayList<>();
+        List<RoomEntity> entities = roomRepository.findAll();
+        for (RoomEntity item: entities) {
+            RoomResponse roomDTO = mapper.map(result, RoomResponse.class);
+            result.add(roomDTO);
+        }
+        return result;
+    }
+
+
+
+    @Override
     @Transactional
-    public RoomResponse save(RoomRequest room) {
-        RoomEntity roomEntity = mapper.map(room, RoomEntity.class);
+    public RoomResponse save(RoomRequest r) {
+        RoomEntity roomEntity = new RoomEntity();
+        roomEntity = mapper.map(r, RoomEntity.class);
         roomEntity = roomRepository.save(roomEntity);
         return mapper.map(roomEntity, RoomResponse.class);
     }
 
     @Override
-    public RoomResponse findById(long id) {
-        Optional<RoomEntity> entity = roomRepository.findById(id);
-        return mapper.map(entity,RoomResponse.class);
+    @Transactional
+    public boolean delete( long ids) {
+        try {
+            roomRepository.deleteById(ids);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
 
 
