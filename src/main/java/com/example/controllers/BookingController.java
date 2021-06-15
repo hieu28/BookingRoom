@@ -55,9 +55,5 @@ public class BookingController {
 
         return iBookingService.findAllBooking();
     }
-    @GetMapping(value = "/booking/{employeeId}")
-    public BookingReponse getByIdEmployee(@PathVariable("employeeId") long id) {
 
-        return iBookingService.getBookingByIdEmployee(id);
-    }
 }

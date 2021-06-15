@@ -13,5 +13,4 @@ public interface IBookingService {
     List<BookingReponse> findAllPaging(Pageable pageable);
     int totallItem();
     List<BookingReponse> findAllBooking();
-    BookingReponse getBookingByIdEmployee(Long id);
 }

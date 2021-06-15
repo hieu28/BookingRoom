@@ -1,7 +1,9 @@
 package com.example.services.impl;
 
-import com.example.models.entities.Booking;
+import com.example.models.entities.BookingEntity;
+import com.example.models.entities.DepartmentEntity;
 import com.example.models.responses.BookingReponse;
+import com.example.models.responses.DepartmentReponse;
 import com.example.repositories.BookingRepository;
 import com.example.services.IBookingService;
 import org.modelmapper.ModelMapper;
@@ -21,16 +23,9 @@ public class BookingService implements IBookingService {
 
     @Override
     public BookingReponse save(BookingReponse bookingReponse) {
-        Booking booking = new Booking();
-        if (bookingReponse.getId() != null) {
-            Booking oldBooking = bookingRepository.findOneById(bookingReponse.getId());
-            booking = mapper.map(oldBooking,Booking.class);
-        } else {
-            booking = mapper.map(bookingReponse,Booking.class);
-        }
-        booking = bookingRepository.save(booking);
-        return mapper.map(booking, BookingReponse.class);
-
+        BookingEntity bookingEntity = mapper.map(bookingReponse, BookingEntity.class);
+        bookingEntity = bookingRepository.save(bookingEntity);
+        return mapper.map(bookingEntity, BookingReponse.class);
     }
     @Override
     public void deleteBooking(Long id) {
@@ -45,17 +40,17 @@ public class BookingService implements IBookingService {
 
     @Override
     public BookingReponse getBookingById(Long id) {
-        Booking booking = new Booking();
-        booking = bookingRepository.findOneById(id);
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity = bookingRepository.findOneById(id);
 
-        return mapper.map(booking, BookingReponse.class);
+        return mapper.map(bookingEntity, BookingReponse.class);
     }
 
     @Override
     public List<BookingReponse> findAllPaging(Pageable pageable) {
         List<BookingReponse> results = new ArrayList<>();
-        List<Booking> bookings = bookingRepository.findAll(pageable).getContent();
-        for (Booking item: bookings){
+        List<BookingEntity> bookingEntities = bookingRepository.findAll(pageable).getContent();
+        for (BookingEntity item: bookingEntities){
             BookingReponse bookingReponse = mapper.map(item,BookingReponse.class);
             results.add(bookingReponse);
         }
@@ -69,20 +64,11 @@ public class BookingService implements IBookingService {
     @Override
     public List<BookingReponse> findAllBooking() {
         List<BookingReponse> resultss = new ArrayList<>();
-        List<Booking> bookingss = bookingRepository.findAll();
-        for (Booking item: bookingss){
+        List<BookingEntity> bookingsses = bookingRepository.findAll();
+        for (BookingEntity item: bookingsses){
             BookingReponse bookingReponse = mapper.map(item,BookingReponse.class);
             resultss.add(bookingReponse);
         }
-
         return resultss;
-    }
-
-    @Override
-    public BookingReponse getBookingByIdEmployee(Long id) {
-        Booking booking = new Booking();
-        booking = bookingRepository.findAllByIdEmployee(id);
-
-        return mapper.map(booking, BookingReponse.class);
     }
 }
