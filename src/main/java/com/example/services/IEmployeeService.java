@@ -1,13 +1,15 @@
 package com.example.services;
 
-import com.example.models.entities.EmployeeEntity;
 import com.example.models.requests.EmployeeRequest;
+import com.example.models.responses.EmployeeResponse;
 
 import java.util.List;
 
 public interface IEmployeeService {
-    EmployeeRequest save(EmployeeRequest employee);
-    void delete(long id);
-    EmployeeRequest findById(long id);
+    EmployeeResponse save(EmployeeRequest employee);
+    boolean delete(Long id);
+    EmployeeResponse findById(Long id);
+    List<EmployeeResponse> findAll();
+
 
 }

@@ -1,7 +1,7 @@
 package com.example.models.requests;
 
 public class EmployeeRequest {
-
+    private long id;
     private String name;
     private String phone;
     private String email;
@@ -9,6 +9,13 @@ public class EmployeeRequest {
     private long departmentId;
     private String image;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
