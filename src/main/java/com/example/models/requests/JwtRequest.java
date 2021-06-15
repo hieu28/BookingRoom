@@ -1,4 +1,4 @@
-package com.example.models.request;
+package com.example.models.requests;
 
 public class JwtRequest {
 

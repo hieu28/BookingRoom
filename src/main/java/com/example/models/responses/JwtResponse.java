@@ -1,4 +1,4 @@
-package com.example.models.response;
+package com.example.models.responses;
 
 public class JwtResponse {
     private final String jwt;

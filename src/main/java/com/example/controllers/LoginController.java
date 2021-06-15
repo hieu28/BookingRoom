@@ -1,7 +1,7 @@
 package com.example.controllers;
 
-import com.example.models.request.JwtRequest;
-import com.example.models.response.JwtResponse;
+import com.example.models.requests.JwtRequest;
+import com.example.models.responses.JwtResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
