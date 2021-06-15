@@ -1,17 +1,12 @@
-package com.example.controller;
+package com.example.controllers;
 
-import com.example.model.request.JwtRequest;
-import com.example.model.response.JwtResponse;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import jdk.nashorn.api.scripting.JSObject;
+import com.example.models.request.JwtRequest;
+import com.example.models.response.JwtResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class LoginController {
