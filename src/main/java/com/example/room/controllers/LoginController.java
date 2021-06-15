@@ -28,7 +28,7 @@ public class LoginController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping({"/hello"})
+    @GetMapping({"/api/hello"})
     public String index(){
         return "Hello";
     }
@@ -39,14 +39,13 @@ public class LoginController {
 
     @PostMapping("/authen")
     public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception{
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getEmail(), jwtRequest.getPassword()));
-        } catch (BadCredentialsException e){
-            throw new Exception("Username or password not found",e);
-        }
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getEmail(), jwtRequest.getPassword()));
+
 
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(jwtRequest.getEmail());
         final String jwt = jwtService.generateToken(userDetails);
+
         return ResponseEntity.ok(new jwtResponse(jwt));
 
     }

@@ -3,20 +3,22 @@ package com.example.room.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 @Service
 public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -41,7 +43,9 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails){
         Map<String,Object> claims =  new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        String jwt = createToken(claims, userDetails.getUsername());
+        redisTemplate.opsForValue().set(jwt,userDetails.getUsername());
+        return jwt;
     }
 
     private String createToken(Map<String,Object> claims, String subject){
@@ -54,6 +58,7 @@ public class JwtService {
 
     public Boolean validateToken(String token, UserDetails userDetails){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        boolean isValidToken = (redisTemplate.opsForValue().get(token) == username);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token)) ;
     }
 }
