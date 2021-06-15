@@ -19,8 +19,8 @@ public class EmployeeController {
     @Autowired
     IEmployeeService employeeService;
 
-    @Autowired
-    EmployeeRepository employeeRepository;
+//    @Autowired
+//    EmployeeRepository employeeRepository;
 
 //    @GetMapping("/employee")
 //    public List<EmployeeEntity> getAllEmployee() {

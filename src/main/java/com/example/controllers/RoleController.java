@@ -15,8 +15,6 @@ public class RoleController {
     @Autowired
     IRoleService roleService;
 
-    @Autowired
-    ModelMapper modelMapper;
 
     @GetMapping("/role")
     public void createRole(@RequestBody RoleRequest role){

@@ -2,6 +2,7 @@ package com.example.services.impl;
 
 import com.example.models.entities.RoleEntity;
 import com.example.models.requests.EmployeeRequest;
+import com.example.models.requests.RoleRequest;
 import com.example.models.responses.RoleResponse;
 import com.example.repositories.RoleRepository;
 import com.example.services.IRoleService;
@@ -22,8 +23,9 @@ public class RoleService implements IRoleService {
     @Autowired
     ModelMapper modelMapper;
 
+
     @Override
-    public RoleResponse save(EmployeeRequest role) {
+    public RoleResponse save(RoleRequest role) {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity = modelMapper.map(role, RoleEntity.class);
         roleEntity = roleRepository.save(roleEntity);
