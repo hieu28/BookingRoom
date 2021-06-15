@@ -40,9 +40,6 @@ public class GeneralInterceptor implements HandlerInterceptor {
             UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(username);
 
             if(jwtService.validateToken(jwt,userDetails)){
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                isTokenValid = true;
             }
 
@@ -50,7 +47,7 @@ public class GeneralInterceptor implements HandlerInterceptor {
         }
         System.out.println("pre autho");
 
-        return true;
+        return isTokenValid;
 
      }
      @Override

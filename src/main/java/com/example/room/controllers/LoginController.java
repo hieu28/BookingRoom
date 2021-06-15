@@ -39,10 +39,7 @@ public class LoginController {
 
     @PostMapping("/authen")
     public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception{
-
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getEmail(), jwtRequest.getPassword()));
-
-
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(jwtRequest.getEmail());
         final String jwt = jwtService.generateToken(userDetails);
 
