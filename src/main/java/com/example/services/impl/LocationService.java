@@ -1,15 +1,15 @@
 package com.example.services.impl;
 
-import com.example.mappers.ModelMapperConfig;
 import com.example.models.entities.LocationEntity;
-import com.example.models.requests.LocationCreatedRequest;
-import com.example.models.responses.LocationCreatedResponse;
+import com.example.models.responses.LocationResponse;
 import com.example.repositories.LocationRepository;
 import com.example.services.ILocationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,20 +19,37 @@ public class LocationService implements ILocationService {
     private LocationRepository locationRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper mapper;
 
     @Override
-    public LocationCreatedResponse save(LocationCreatedResponse locationCreatedResponse) {
-        LocationEntity locationEntity = new LocationEntity();
-        locationEntity = modelMapper.map(locationCreatedResponse, LocationEntity.class);
+    public LocationResponse save(LocationResponse locationResponse) {
+        LocationEntity  locationEntity = new LocationEntity();
+        locationEntity = mapper.map(locationResponse, LocationEntity.class);
         locationEntity = locationRepository.save(locationEntity);
-        return modelMapper.map(locationEntity, LocationCreatedResponse.class);
+        return mapper.map(locationEntity, LocationResponse.class);
     }
 
+    @Override
+    public void deleteLocation(Long id) {
+        locationRepository.deleteById(id);
+    }
 
+    @Override
+    public LocationResponse getLocationById(Long id) {
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity = locationRepository.findOneById(id);
+        return mapper.map(locationEntity, LocationResponse.class);
+    }
 
-//    @Override
-//    public List<LocationCreatedResponse> getAll() {
-//        return null;
-//    }
+    @Override
+    public List<LocationResponse> findAllLocation() {
+        List<LocationResponse> resultss = new ArrayList<>();
+        List<LocationEntity> locationEntities = locationRepository.findAll();
+        for (LocationEntity item: locationEntities){
+            LocationResponse locationResponse = mapper.map(item,LocationResponse.class);
+            resultss.add(locationResponse);
+        }
+        return resultss;
+    }
+
 }

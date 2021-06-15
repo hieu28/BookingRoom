@@ -1,13 +1,8 @@
 package com.example.models.responses;
 
-public class LocationCreatedResponse {
+public class LocationResponse {
     private Long id;
     private String name;
-
-    public LocationCreatedResponse(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
@@ -17,11 +12,11 @@ public class LocationCreatedResponse {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

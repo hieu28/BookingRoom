@@ -1,14 +1,8 @@
 package com.example.models.requests;
 
-public class LocationCreatedRequest {
-
-    private  Long id;
-
+public class LocationRequest {
+    private Long id;
     private String name;
-
-//    public LocationCreatedRequest(String name) {
-//        this.name = name;
-//    }
 
     public Long getId() {
         return id;
@@ -18,11 +12,11 @@ public class LocationCreatedRequest {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
