@@ -1,6 +1,6 @@
 package com.example.room.services;
 
-import com.example.room.models.entities.Account;
+import com.example.room.models.entities.Employee;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,17 +27,17 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountServices.findAccount(email);
-        if (account == null){
+        Employee employee = accountServices.findAccount(email);
+        if (employee == null){
             throw new BadCredentialsException("Username not found");
         }
         Set<GrantedAuthority> grantedAuthority =  new HashSet<>();
-        List<String> roleName = roleService.findRole(account.getId());
+        List<String> roleName = roleService.findRole(employee.getId());
         for(String rolename : roleName){
             grantedAuthority.add(new SimpleGrantedAuthority(rolename));
         }
 
-        return new org.springframework.security.core.userdetails.User(account.getEmail(), account.getPassword(), grantedAuthority);
+        return new org.springframework.security.core.userdetails.User(employee.getEmail(), employee.getPassword(), grantedAuthority);
 
     }
 }
