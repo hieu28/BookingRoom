@@ -8,6 +8,8 @@ import com.example.services.IEmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.management.relation.RelationNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +43,13 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public EmployeeResponse findById(Long id) {
-        Optional<EmployeeEntity> entity = employeeRepository.findById(id);
-        return  modelMapper.map(entity, EmployeeResponse.class);
+    public EmployeeEntity findById(Long id) throws RelationNotFoundException {
+        Optional<EmployeeEntity> entity = this.employeeRepository.findById(id);
+        if (entity.isPresent()){
+            return entity.get();
+        }else{
+            throw new RelationNotFoundException("Record not found with id : " + id);
+        }
     }
 
     @Override
@@ -51,13 +57,10 @@ public class EmployeeService implements IEmployeeService {
         List<EmployeeResponse> r = new ArrayList<>();
         List<EmployeeEntity> entities = employeeRepository.findAll();
         for (EmployeeEntity item: entities) {
-            EmployeeResponse roomDTO = modelMapper.map(r, EmployeeResponse.class);
+            EmployeeResponse roomDTO = modelMapper.map(item, EmployeeResponse.class);
             r.add(roomDTO);
         }
         return r;
     }
-
-
-
 
 }
