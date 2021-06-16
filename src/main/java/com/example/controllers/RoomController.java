@@ -22,10 +22,10 @@ public class RoomController {
     private ModelMapper mapper;
 
     @PostMapping(value = "/room")
-    public void createRoom(@RequestBody RoomRequest room) {
-        roomService.save(room);
+    public RoomResponse createRoom(@RequestBody RoomRequest room) {
+        RoomResponse rooms = roomService.save(room);
+        return rooms;
     }
-
 
     @PutMapping(value = "/room/{id}")
     public RoomResponse updateNew(@RequestBody RoomRequest model, @PathVariable("id") long id) {
