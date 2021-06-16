@@ -1,6 +1,10 @@
 package com.example.models.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employee")
@@ -11,15 +15,24 @@ public class EmployeeEntity {
     private long id;
 
     @Column(name = "name")
+    @NotEmpty(message = "{employee.name}")
+    @Size(max = 50,min = 5,message = "{employee.name.length}")
     private String name;
 
+    @NotEmpty(message = "Please enter the phone number !")
+    @Pattern(regexp = "@[a-z0-9_]")
     @Column(name = "phone")
     private String phone;
 
+    @NotEmpty(message = "Please enter email")
+    @Pattern(regexp = "[a-z0-9_]+@[a-z0-9_]+",message = "Wrong format xxx@ttc-solution.com.vn")
     @Column(name = "email")
     private String email;
 
+
     @Column(name = "password")
+    @NotEmpty(message = "PLease enter password")
+    @Pattern(regexp = "@[a-z0-9_]")
     private String password;
 
     @Column(name = "department_id")

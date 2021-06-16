@@ -1,7 +1,9 @@
 package com.example.controllers;
 
 
+import com.example.models.requests.EmployeeRequest;
 import com.example.models.requests.RoleRequest;
+import com.example.models.responses.EmployeeResponse;
 import com.example.models.responses.RoleResponse;
 import com.example.services.IRoleService;
 import org.modelmapper.ModelMapper;
@@ -17,8 +19,12 @@ public class RoleController {
 
 
     @GetMapping("/role")
-    public void createRole(@RequestBody RoleRequest role){
-        roleService.save(role);
+    public void findAllRole(@RequestBody RoleRequest roles){
+        roleService.save(roles);
+    }
+    @PostMapping("/role")
+    public RoleResponse createRole(@RequestBody RoleRequest role){
+        return roleService.save(role);
     }
 
     @GetMapping("/role/{id}")

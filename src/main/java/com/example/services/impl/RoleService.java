@@ -53,7 +53,7 @@ public class RoleService implements IRoleService {
         List<RoleResponse> result = new ArrayList<>();
         List<RoleEntity> entities = roleRepository.findAll();
         for (RoleEntity item: entities) {
-            RoleResponse room = modelMapper.map(result, RoleResponse.class);
+            RoleResponse room = modelMapper.map(item, RoleResponse.class);
             result.add(room);
         }
         return result;
