@@ -1,8 +1,13 @@
 package com.example.services.impl;
 
+import com.example.models.entities.BookingEntity;
+import com.example.models.entities.LocationEntity;
 import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
+import com.example.models.responses.BookingReponse;
+import com.example.models.responses.RoomFindAllIndex;
 import com.example.models.responses.RoomResponse;
+import com.example.repositories.LocationRepository;
 import com.example.repositories.RoomRepository;
 import com.example.services.IRoomService;
 import org.modelmapper.ModelMapper;
@@ -21,6 +26,8 @@ public class RoomService implements IRoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private LocationRepository locationRepository;
 
     @Override
     public List<RoomResponse> findAll() {
@@ -57,5 +64,5 @@ public class RoomService implements IRoomService {
 
     }
 
-
+//
 }
