@@ -32,16 +32,14 @@ public class LocationController {
     public void deleteLocation(@PathVariable("id") long id) {
         iLocationService.deleteLocation(id);
     }
+
     @GetMapping(value = "/location/{id}")
-
     public LocationResponse getById(@PathVariable("id") long id) {
-
         return iLocationService.getLocationById(id);
     }
 
     @GetMapping(value = "/location")
-    public List<LocationResponse> findAdd() {
-
+    public List<LocationResponse> findAll() {
         return iLocationService.findAllLocation();
     }
 }

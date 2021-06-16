@@ -1,6 +1,9 @@
 package com.example.models.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "location")
@@ -11,6 +14,7 @@ public class LocationEntity {
     private Long id;
 
     @Column(name = "name")
+    @NotEmpty(message = "Location not Empty")
     private String name;
 
     public Long getId() {

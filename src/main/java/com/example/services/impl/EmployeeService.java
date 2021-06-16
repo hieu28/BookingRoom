@@ -51,7 +51,7 @@ public class EmployeeService implements IEmployeeService {
         List<EmployeeResponse> r = new ArrayList<>();
         List<EmployeeEntity> entities = employeeRepository.findAll();
         for (EmployeeEntity item: entities) {
-            EmployeeResponse roomDTO = modelMapper.map(r, EmployeeResponse.class);
+            EmployeeResponse roomDTO = modelMapper.map(item, EmployeeResponse.class);
             r.add(roomDTO);
         }
         return r;
