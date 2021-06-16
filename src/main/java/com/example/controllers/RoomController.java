@@ -21,6 +21,16 @@ public class RoomController {
     @Autowired
     private ModelMapper mapper;
 
+    @GetMapping(value = "/room")
+    public List<RoomResponse> getAll(){
+        return roomService.findAll();
+    }
+
+    @GetMapping(value = "/room/{id}")
+    public RoomResponse getById(@PathVariable("id") long id){
+        return roomService.findById(id);
+    }
+
     @PostMapping(value = "/room")
     public RoomResponse createRoom(@RequestBody RoomRequest room) {
         RoomResponse rooms = roomService.save(room);

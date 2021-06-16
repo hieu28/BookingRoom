@@ -15,7 +15,7 @@ public class RoomEntity {
     private Long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "Tên không được để trống")
+    @NotEmpty(message = "Name not empty")
     private String name;
 
     @Column(name = "location_id")

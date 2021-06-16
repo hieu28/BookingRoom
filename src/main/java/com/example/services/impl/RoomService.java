@@ -34,13 +34,11 @@ public class RoomService implements IRoomService {
         List<RoomResponse> result = new ArrayList<>();
         List<RoomEntity> entities = roomRepository.findAll();
         for (RoomEntity item: entities) {
-            RoomResponse roomDTO = mapper.map(result, RoomResponse.class);
+            RoomResponse roomDTO = mapper.map(item, RoomResponse.class);
             result.add(roomDTO);
         }
         return result;
     }
-
-
 
     @Override
     @Transactional
@@ -63,6 +61,11 @@ public class RoomService implements IRoomService {
         }
 
     }
+    @Override
+    public RoomResponse findById(long id) {
+        Optional<RoomEntity> entity = roomRepository.findById(id);
+        RoomResponse room = mapper.map(entity.get(),RoomResponse.class);
+        return room;
+    }
 
-//
 }
