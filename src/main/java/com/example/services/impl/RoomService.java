@@ -33,7 +33,7 @@ public class RoomService implements IRoomService {
     public List<RoomResponse> findAll() {
         List<RoomResponse> result = new ArrayList<>();
         List<RoomEntity> entities = roomRepository.findAll();
-        for (RoomEntity item: entities) {
+        for (RoomEntity item : entities) {
             RoomResponse roomDTO = mapper.map(item, RoomResponse.class);
             result.add(roomDTO);
         }
@@ -42,20 +42,20 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
-    public RoomResponse save(RoomRequest r) {
+    public RoomResponse save(RoomRequest room) {
         RoomEntity roomEntity = new RoomEntity();
-        roomEntity = mapper.map(r, RoomEntity.class);
+        roomEntity = mapper.map(room, RoomEntity.class);
         roomEntity = roomRepository.save(roomEntity);
         return mapper.map(roomEntity, RoomResponse.class);
     }
 
     @Override
     @Transactional
-    public boolean delete( long ids) {
+    public boolean delete(long ids) {
         try {
             roomRepository.deleteById(ids);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -64,8 +64,9 @@ public class RoomService implements IRoomService {
     @Override
     public RoomResponse findById(long id) {
         Optional<RoomEntity> entity = roomRepository.findById(id);
-        RoomResponse room = mapper.map(entity.get(),RoomResponse.class);
-        return room;
+        return mapper.map(entity.get(), RoomResponse.class);
     }
+
+
 
 }
