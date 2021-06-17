@@ -42,7 +42,7 @@ public class RoomController {
     public void deleteNew(@PathVariable("id") long ids) {
         roomService.delete(ids);
     }
-    @GetMapping(value = "/room/{id}")
+    @GetMapping(value = "/room/roomidex/{id}")
     public List<RoomFindAllIndex> ShowRoomByLocatiton(@PathVariable("id") long id) {
 
         return roomService.findAllRoomById(id);
