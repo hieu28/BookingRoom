@@ -5,12 +5,20 @@ public class RoomFindAllIndex {
     private Long id;
     private String image;
     private String name;
-    private int locationId;
+    private Long locationId;
     private int capacity;
     private String nameLocation;
 
     public Long getId() {
         return id;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 
     public void setId(Long id) {
@@ -33,13 +41,6 @@ public class RoomFindAllIndex {
         this.name = name;
     }
 
-    public int getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
-    }
 
     public int getCapacity() {
         return capacity;

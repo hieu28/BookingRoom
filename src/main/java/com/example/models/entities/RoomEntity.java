@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -19,7 +20,8 @@ public class RoomEntity {
     private String name;
 
     @Column(name = "location_id")
-    private int locationId;
+    @NotNull
+    private Long locationId;
 
     @Column(name = "capacity")
     @Min(value = 1, message = "Sức chứa tối thiểu là 1")
@@ -53,11 +55,11 @@ public class RoomEntity {
         this.name = name;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 

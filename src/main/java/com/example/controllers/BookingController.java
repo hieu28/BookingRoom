@@ -2,6 +2,7 @@ package com.example.controllers;
 
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.BookingfindAllPagReponse;
+import com.example.models.responses.RoomFindAllIndex;
 import com.example.services.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
