@@ -30,10 +30,6 @@ public class RoomController {
         return  roomService.findByLocation(id);
     }
 
-    @GetMapping(value = "/room/search/{keyword}")
-    public List<RoomEntity> search(@PathVariable("keyword") String keyword){
-        return  roomService.search(keyword);
-    }
 
     @PostMapping(value = "/room")
     public RoomResponse createRoom(@RequestBody RoomRequest room) {
