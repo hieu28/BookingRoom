@@ -1,9 +1,11 @@
 package com.example.models.entities;
 
-import com.sun.istack.NotNull;
-import org.springframework.lang.NonNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 
 @Entity
 @Table(name = "room")
@@ -13,27 +15,26 @@ public class RoomEntity {
     private Long id;
 
     @Column(name = "name")
-    @NotNull
+    @NotEmpty(message = "Name not empty")
     private String name;
 
     @Column(name = "location_id")
-    @NotNull
     private int locationId;
 
     @Column(name = "capacity")
-    @NotNull
+    @Min(value = 1, message = "Sức chứa tối thiểu là 1")
+    @Max(value = 50, message = "Sức chứa tối đa là 50")
     private int capacity;
 
     @Column(name = "description", columnDefinition = "TEXT")
-    @NotNull
+    @NotEmpty(message = "Mô tả không được để trống")
     private String description;
 
     @Column(name = "image", columnDefinition = "TEXT")
-    @NotNull
+    @NotEmpty(message = "Ảnh không được để trống")
     private String image;
 
     @Column(name = "status", columnDefinition = "BIT")
-    @NotNull
     private boolean status;
 
     public Long getId() {
