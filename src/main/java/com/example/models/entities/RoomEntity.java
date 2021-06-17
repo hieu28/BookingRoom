@@ -18,7 +18,7 @@ public class RoomEntity {
 
     @Column(name = "location_id")
     @NotNull
-    private int locationId;
+    private Long locationId;
 
     @Column(name = "capacity")
     @NotNull
@@ -52,11 +52,11 @@ public class RoomEntity {
         this.name = name;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 
