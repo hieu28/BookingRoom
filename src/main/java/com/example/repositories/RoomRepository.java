@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface RoomRepository extends JpaRepository<RoomEntity,Long> {
     Optional<List<RoomEntity>> findByLocationId(Long id);
-
+    RoomEntity findOneById(Long id);
+    List<RoomEntity> findAllByLocationId(Long id);
 }

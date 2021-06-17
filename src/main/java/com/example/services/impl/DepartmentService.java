@@ -1,8 +1,6 @@
 package com.example.services.impl;
 
-import com.example.models.entities.BookingEntity;
 import com.example.models.entities.DepartmentEntity;
-import com.example.models.responses.BookingReponse;
 import com.example.models.responses.DepartmentReponse;
 import com.example.repositories.DeprtmentRepository;
 import com.example.services.IDepartmentService;

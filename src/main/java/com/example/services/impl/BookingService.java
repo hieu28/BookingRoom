@@ -1,10 +1,11 @@
 package com.example.services.impl;
 
-import com.example.models.entities.BookingEntity;
-import com.example.models.entities.DepartmentEntity;
+import com.example.models.entities.*;
 import com.example.models.responses.BookingReponse;
-import com.example.models.responses.DepartmentReponse;
+import com.example.models.responses.MyBookingFindAll;
 import com.example.repositories.BookingRepository;
+import com.example.repositories.EmployeeRepository;
+import com.example.repositories.RoomRepository;
 import com.example.services.IBookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ import java.util.List;
 public class BookingService implements IBookingService {
     @Autowired
     private BookingRepository bookingRepository;
-
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
     @Autowired
     private ModelMapper mapper;
 
@@ -70,5 +74,28 @@ public class BookingService implements IBookingService {
             resultss.add(bookingReponse);
         }
         return resultss;
+    }
+
+    @Override
+    public List<MyBookingFindAll> MyGetAllBooking(Long id) {
+        List<BookingEntity> bookingEntities = bookingRepository.findAllByIdE(id);
+        List<MyBookingFindAll> result = new ArrayList<>();
+        for (BookingEntity item : bookingEntities) {
+            MyBookingFindAll bookDTO = mapper.map(item, MyBookingFindAll.class);
+            result.add(bookDTO);
+        }
+        List<RoomEntity> roomEntities = roomRepository.findAll();
+        List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
+        for (MyBookingFindAll myBookingFindAll : result){
+            for (RoomEntity item : roomEntities){
+                for (EmployeeEntity itemr: employeeEntities) {
+                    if (myBookingFindAll.getRoomId()== item.getId()&&myBookingFindAll.getEmployeeId()==id) {
+                        myBookingFindAll.setNameRoom(item.getName());
+                        myBookingFindAll.setNameAdBooking(itemr.getName());
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
