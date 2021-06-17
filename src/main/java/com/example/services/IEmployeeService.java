@@ -12,6 +12,4 @@ public interface IEmployeeService {
     boolean delete(Long id);
     EmployeeEntity findById(Long id) throws RelationNotFoundException;
     List<EmployeeResponse> findAll();
-
-
 }

@@ -13,7 +13,6 @@ import com.example.services.IRoomService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.Optional;
 public class RoomService implements IRoomService {
     @Autowired
     private ModelMapper mapper;
-
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
@@ -69,4 +67,45 @@ public class RoomService implements IRoomService {
 
 
 
+//    @Override
+//    public List<RoomFindAllIndex> finAllRoom() {
+//        List<RoomFindAllIndex> results = new ArrayList<>();
+//        List<LocationEntity> locationEntities = locationRepository.findAllLocation();
+//        List<Long> listIdLocation = new ArrayList<>();
+//        for(LocationEntity item: locationEntities) {
+//            listIdLocation.add(item.getId());
+//        }
+//        RoomFindAllIndex roomFindAllIndexx = new RoomFindAllIndex();
+//        for(long item: listIdLocation) {
+//            LocationEntity lce = locationRepository.findOneById(item);
+//            RoomEntity roomEntity = roomRepository.findOneByIdLocationId(item);
+//            RoomFindAllIndex roomFinda = mapper.map(roomEntity,RoomFindAllIndex.class);
+//            roomFindAllIndexx.setNameLocation(lce.getName());
+//            roomFindAllIndexx.setName(roomEntity.getName());
+//            roomFindAllIndexx.setCapacity(roomEntity.getCapacity());
+//            roomFindAllIndexx.setId(roomEntity.getId());
+//            roomFindAllIndexx.setImage(roomEntity.getImage());
+//            roomFindAllIndexx.setLocationId(roomEntity.getLocationId());
+//            results.add(roomFinda);
+//        }
+//        return results;
+//    }
+    @Override
+    public List<RoomFindAllIndex> findAllRoomById(Long id) {
+        List<RoomFindAllIndex> resultss = new ArrayList<>();
+        List<RoomEntity> roomEntities = roomRepository.findAllByLocationId(id);
+        RoomFindAllIndex roomFindAllIndex = new RoomFindAllIndex();
+        for (RoomEntity item: roomEntities){
+            LocationEntity locationEntities = locationRepository.findOneById(item.getLocationId());
+            RoomFindAllIndex roomFind = mapper.map(item,RoomFindAllIndex.class);
+            roomFindAllIndex.setNameLocation(locationEntities.getName());
+            roomFindAllIndex.setName(item.getName());
+            roomFindAllIndex.setCapacity(item.getCapacity());
+            roomFindAllIndex.setId(item.getId());
+            roomFindAllIndex.setImage(item.getImage());
+            roomFindAllIndex.setLocationId(item.getLocationId());
+            resultss.add(roomFindAllIndex);
+        }
+        return resultss;
+    }
 }
