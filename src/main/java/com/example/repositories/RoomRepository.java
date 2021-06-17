@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+
 @Repository
 public interface RoomRepository extends JpaRepository<RoomEntity,Long> {
-    Optional<RoomEntity> findOneById(Long id);
-    List<RoomEntity> findAllByLocationId(Long id);
+    Optional<List<RoomEntity>> findByLocationId(Long id);
+
 }
