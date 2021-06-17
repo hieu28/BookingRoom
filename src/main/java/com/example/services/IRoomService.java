@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
 import com.example.models.responses.RoomResponse;
 

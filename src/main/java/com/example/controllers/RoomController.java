@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
@@ -27,6 +28,11 @@ public class RoomController {
     @GetMapping(value = "/room/list/{id}")
     public List<RoomResponse> getByLocation(@PathVariable("id") long id){
         return  roomService.findByLocation(id);
+    }
+
+    @GetMapping(value = "/room/search/{keyword}")
+    public List<RoomEntity> search(@PathVariable("keyword") String keyword){
+        return  roomService.search(keyword);
     }
 
     @PostMapping(value = "/room")
