@@ -22,6 +22,8 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
