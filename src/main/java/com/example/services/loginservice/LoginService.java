@@ -1,5 +1,6 @@
 package com.example.services.loginservice;
 
+import ch.qos.logback.core.pattern.color.BoldCyanCompositeConverter;
 import com.example.exceptions.PasswordNotFoundException;
 import com.example.exceptions.UserPassnotFound;
 import com.example.models.entities.EmployeeEntity;
@@ -18,6 +19,8 @@ public class LoginService {
         this.jwtProvider = jwtProvider;
     }
 
+
+
     public JwtProvider checkUser(String email, String password) throws Exception {
         EmployeeEntity employee = employeeService.findEmployee(email);
         if(!email.equals(employee.getEmail()))throw new UserPassnotFound(); {
@@ -29,6 +32,8 @@ public class LoginService {
         return jwtProvider;
 
     }
+
+
 
 
 }

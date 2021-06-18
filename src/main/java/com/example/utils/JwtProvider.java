@@ -52,8 +52,10 @@ public class JwtProvider {
     public String generateToken(EmployeeEntity employee) {
 
         Map<String, Object> claims = new HashMap<>();
-        template.opsForValue().set(String.valueOf(claims), employee.getEmail());
-        return doGenerateToken(claims, employee.getEmail());
+        //template.opsForValue().set(String.valueOf(claims), employee.getEmail());
+        String jwt =  doGenerateToken(claims, employee.getEmail());
+        template.opsForValue().set(jwt, employee.getId());
+        return jwt;
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
