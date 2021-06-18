@@ -5,10 +5,7 @@ import com.example.models.entities.EmployeeEntity;
 import com.example.models.entities.EmployeeRoleEntity;
 import com.example.models.entities.RoleEntity;
 import com.example.models.requests.EmployeeRequest;
-import com.example.models.responses.DepartmentReponse;
 import com.example.models.responses.EmployeeResponse;
-import com.example.models.responses.EmployeeRoleResponse;
-import com.example.models.responses.RoleResponse;
 import com.example.repositories.DeprtmentRepository;
 import com.example.repositories.EmployeeRepository;
 import com.example.repositories.EmployeeRoleRepository;
@@ -121,8 +118,6 @@ public class EmployeeService implements IEmployeeService {
             e.getMessage();
             return null;
         }
-
-
     }
 
     @Override
