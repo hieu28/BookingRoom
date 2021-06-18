@@ -12,6 +12,7 @@ public class RoomResponse {
     private boolean status;
     private String locationName;
 
+
     public RoomResponse() {
     }
 

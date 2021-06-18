@@ -3,13 +3,15 @@ package com.example.models.responses;
 import java.util.Date;
 
 public class MyBookingFindAll {
+    private Long Id;
     private Date checkIn;
     private Date chechOut;
     private Long numberOfMember;
+    private String title;
     private String nameAdBooking;
     private String nameRoom;
-    private String title;
     private Long roomId;
+    private Long bookingId;
     private Long employeeId;
     private String description;
     public Long getEmployeeId() {
@@ -36,10 +38,23 @@ public class MyBookingFindAll {
         this.checkIn = checkIn;
     }
 
+    public Long getId() {
+        return Id;
+    }
+    public void setId(Long id) {
+        Id = id;
+    }
+
     public Date getChechOut() {
         return chechOut;
     }
 
+    public Long getBookingId() {
+        return bookingId;
+    }
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
     public String getDescription() {
         return description;
     }
