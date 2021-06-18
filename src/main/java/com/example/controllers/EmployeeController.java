@@ -53,13 +53,13 @@ public class EmployeeController {
 
         return employeeService.findByEmail(email);
     }
-//    @GetMapping(value = "/employee")
-//    public EmployeeFageResponse ShowPaging(@RequestParam("page") int page, @RequestParam("limit") int limit) {
-//        EmployeeFageResponse result = new EmployeeFageResponse();
-//        result.setPage(page);
-//        Pageable pageable = PageRequest.of(page-1,limit);
-//        result.setListresult(employeeService.findAllPaging(pageable));
-//        result.setTotalpage((int)Math.ceil((double)(employeeService.totalItem())/limit));
-//        return result;
-//    }
+    @GetMapping(value = "/employee/{page}/{limit}")
+    public EmployeeFageResponse ShowPaging(@PathVariable("page") int page, @PathVariable("limit") int limit) {
+        EmployeeFageResponse result = new EmployeeFageResponse();
+        result.setPage(page);
+        Pageable pageable = PageRequest.of(page-1,limit);
+        result.setListresult(employeeService.findAllPaging(pageable));
+        result.setTotalpage((int)Math.ceil((double)(employeeService.totalItem())/limit));
+        return result;
+    }
 }
