@@ -34,7 +34,6 @@ public class DepartmentController {
     @DeleteMapping(value = "/department/{id}")
     public String deleteDepartment(@PathVariable("id") long id) {
         iDepartmentService.deleteDepartment(id);
-//        return new RoomRepository<Room>(HttpStatus.NO_CONTENT);
         return "xóa thành công";
     }
     @GetMapping(value = "/department/{id}")

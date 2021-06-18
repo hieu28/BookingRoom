@@ -4,7 +4,6 @@ import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

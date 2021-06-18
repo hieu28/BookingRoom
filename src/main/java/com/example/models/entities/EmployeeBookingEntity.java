@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employee_booking")
-public class EmployeeBooking {
+public class EmployeeBookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "EmployeeID not empty")
+//    @NotEmpty(message = "EmployeeID not empty")
     @Column(name = "employee_id")
     private Long employeeId;
-    @NotEmpty(message = "BookingID not empty")
+//    @NotEmpty(message = "BookingID not empty")
     @Column(name = "booking_id")
     private Long bookingId;
 
