@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 // khai báo annotation này có hiệu lực với method
-@Target(ElementType.METHOD)
+
 public @interface Auth {
     // ở đây mình set cứng gồm 1 số quyền sau, chúng ta có thể thay thế sang
     // String hoặc int để sử dụng kèm db

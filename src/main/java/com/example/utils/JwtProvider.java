@@ -1,6 +1,6 @@
 package com.example.utils;
 
-import com.example.configs.RedisConfig;
+import com.example.models.entities.EmployeeEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,51 +23,40 @@ public class JwtProvider {
     private String SECRET_KEY;
 
     @Autowired
-    private RedisTemplate<String, String> template;
-
-
-    public RedisTemplate<String, String> getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(RedisTemplate<String, String> template) {
-        this.template = template;
-    }
-
-    public void putData(String uniqueKey, String key, Object results) {
-        template.opsForHash().put(uniqueKey, key, results);
-    }
-
+    private RedisTemplate<Object, Object> template;
 
     public String getUsernameFromToken(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return getClaimFromToken(token, Claims::getSubject);
     }
 
     public Date getExpirationFromToken(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResovler) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResovler.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResovler) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResovler.apply(claims);
-    }
+
 
 
     private Boolean isTokenExpired(String token) {
         return getExpirationFromToken(token).before(new Date());
     }
 
-    public String generateToken(String email) {
+    public String generateToken(EmployeeEntity employee) {
 
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        template.opsForValue().set(String.valueOf(claims), employee.getEmail());
+        return doGenerateToken(claims, employee.getEmail());
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
         Instant issuaAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuaAt.plus(3, ChronoUnit.HOURS);
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date.from(issuaAt))
@@ -75,9 +64,9 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, String email) {
+    public Boolean validateToken(String token, EmployeeEntity employee) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(employee.getEmail()) && !isTokenExpired(token));
     }
 
 }

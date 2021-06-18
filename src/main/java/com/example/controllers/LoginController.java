@@ -15,7 +15,7 @@ public class LoginController {
 @Autowired
 LoginService loginService;
 
-    @PostMapping("/authen")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception {
         String username = "jd@mggg.com";
         String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqZEBtZ2dnLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMn0._J2H9SEiwPS6OPxaOcyiFLVfrM9tKvqKulTUhMGQvf8";
