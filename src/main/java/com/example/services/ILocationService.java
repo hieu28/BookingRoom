@@ -2,7 +2,6 @@ package com.example.services;
 
 import com.example.models.responses.LocationResponse;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface ILocationService {

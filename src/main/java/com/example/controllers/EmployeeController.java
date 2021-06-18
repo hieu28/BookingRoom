@@ -8,7 +8,6 @@ import com.example.services.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RelationNotFoundException;
@@ -27,8 +26,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{id}")
-    public ResponseEntity<EmployeeEntity> getById(@PathVariable("id") long id) throws RelationNotFoundException {
-        return ResponseEntity.ok().body(employeeService.findById(id));
+    public EmployeeEntity getById(@PathVariable("id") long id) throws RelationNotFoundException {
+        return employeeService.findById(id);
     }
 
 
