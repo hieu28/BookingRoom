@@ -29,10 +29,19 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(url.contains("authen")){
         return true;
         }
-//        if(jwtService.CheckToken(authorizationHeader)) throw new JwtException();{
-//            return true;
-//        }
-        return jwtService.CheckToken(authorizationHeader);
+
+        if(authorizationHeader != null ){
+            if(jwtService.CheckToken(authorizationHeader)){
+                return true;
+            }
+            response.getWriter().write("error invaild token");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(401);
+            return false;
+        }
+
+        return true;
     }
 
 
