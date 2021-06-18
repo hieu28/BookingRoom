@@ -35,6 +35,16 @@ public class EmployeeEntity {
     @NotEmpty(message = "PLease enter image")
     private String image;
 
+    public EmployeeEntity(long id, String name, String phone, String email, String password, long departmentId, String image) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.departmentId = departmentId;
+        this.image = image;
+    }
+
     public long getId() {
         return id;
     }

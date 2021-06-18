@@ -28,6 +28,7 @@ import java.util.Optional;
 @Service
 public class EmployeeService implements IEmployeeService {
 
+    public EmployeeEntity findByemail;
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -42,6 +43,14 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public EmployeeEntity findEmployee(String email) {
+        return employeeRepository.findByEmail(email).get();
+    }
 
     @Override
     public EmployeeResponse save(EmployeeRequest employee) {
