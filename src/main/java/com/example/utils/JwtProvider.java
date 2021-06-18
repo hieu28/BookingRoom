@@ -1,6 +1,6 @@
 package com.example.utils;
 
-import com.example.configs.RedisConfig;
+import com.example.models.entities.EmployeeEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -61,10 +61,14 @@ public class JwtProvider {
         return getExpirationFromToken(token).before(new Date());
     }
 
-    public String generateToken(String email) {
+    public String generateToken(EmployeeEntity employee) {
 
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+
+        String jwt = createToken(claims, employee.getEmail());
+        template.opsForHash().get(jwt, employee.getId());
+        return jwt;
+
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -75,9 +79,9 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, String email) {
+    public Boolean validateToken(String token, EmployeeEntity employee) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(employee.getEmail()) && !isTokenExpired(token));
     }
 
 }
