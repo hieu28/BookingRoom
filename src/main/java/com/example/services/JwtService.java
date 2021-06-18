@@ -6,8 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
-import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -55,9 +53,18 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, String email){
-        final String username = extractUsername(token);
-        return (username.equals(email) && !isTokenExpired(token));
+    public Boolean CheckToken(String authorizationHeader){
+        String username = null;
+        String token = null;
+
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            token = authorizationHeader.substring(7);
+            username = extractUsername(token);
+        }
+
+        return (username.equals(redis) && !isTokenExpired(token));
+
     }
+
 
 }

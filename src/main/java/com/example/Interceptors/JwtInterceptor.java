@@ -13,11 +13,12 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtService jwtService;
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("kang");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
+        System.out.println("as");
     }
 
     @Override
@@ -28,14 +29,15 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(url.contains("authen")){
         return true;
         }
-
-
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+//        if(jwtService.CheckToken(authorizationHeader)) throw new JwtException();{
+//            return true;
+//        }
+        return jwtService.CheckToken(authorizationHeader);
     }
 
 
 
-    public static String resolveToken(HttpServletRequest req) {
-        return req.getHeader("Authorization");
-    }
+//    public static String resolveToken(HttpServletRequest req) {
+//        return req.getHeader("Authorization");
+//    }
 }

@@ -2,7 +2,6 @@ package com.example.controllers;
 
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.BookingfindAllPagReponse;
-import com.example.models.responses.RoomFindAllIndex;
 import com.example.services.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,12 +15,13 @@ import java.util.List;
 public class BookingController {
     @Autowired
     private IBookingService iBookingService;
+
     @PostMapping(value = "/booking")
     public BookingReponse createBooking(@RequestBody BookingReponse model) {
         return iBookingService.save(model);
     }
-    @PutMapping(value = "/booking/{id}")
 
+    @PutMapping(value = "/booking/{id}")
     public BookingReponse updateBooking(@RequestBody BookingReponse model, @PathVariable("id") long id) {
         model.setId(id);
         return iBookingService.save(model);
@@ -49,9 +49,9 @@ public class BookingController {
     public BookingfindAllPagReponse ShowBookingPaging(@RequestParam("page") int page, @RequestParam("limit") int limit) {
         BookingfindAllPagReponse result = new BookingfindAllPagReponse();
         result.setPage(page);
-        Pageable pageable = PageRequest.of(page-1,limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
         result.setListresult(iBookingService.findAllPaging(pageable));
-        result.setTotalpage((int)Math.ceil((double)(iBookingService.totallItem())/limit));
+        result.setTotalpage((int) Math.ceil((double) (iBookingService.totallItem()) / limit));
         return result;
     }
 
