@@ -9,6 +9,10 @@ public class EmployeeRequest {
     private long departmentId;
     private String image;
 
+    public String getEmail() {
+        return email;
+    }
+
     public long getId() {
         return id;
     }
