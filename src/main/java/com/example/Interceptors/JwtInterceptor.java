@@ -21,11 +21,16 @@ public class JwtInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object hanlder) throws  Exception{
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws  Exception{
         String url = request.getRequestURI();
         String method = request.getMethod();
         String authorizationHeader = request.getHeader("Authorization");
-        if(method.)
+        if(url.contains("authen")){
+        return true;
+        }
+
+
+        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
 
