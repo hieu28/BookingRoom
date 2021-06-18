@@ -20,7 +20,7 @@ public class EmployeeEntity {
     private String name;
 
     @NotEmpty(message = "Please enter the phone number !")
-    @Pattern(regexp = "@[a-z0-9_]")
+    @Pattern(regexp = "[0-9]")
     @Column(name = "phone")
     private String phone;
 
@@ -39,6 +39,7 @@ public class EmployeeEntity {
     private long departmentId;
 
     @Column(name = "image")
+    @NotEmpty(message = "PLease enter image")
     private String image;
 
     public long getId() {

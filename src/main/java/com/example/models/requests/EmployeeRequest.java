@@ -33,8 +33,8 @@ public class EmployeeRequest {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmail(String email) {
+        return this.email;
     }
 
     public void setEmail(String email) {

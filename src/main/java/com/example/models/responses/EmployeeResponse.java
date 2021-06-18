@@ -9,6 +9,24 @@ public class EmployeeResponse {
     private String password;
     private long departmentId;
     private String image;
+    private String departmentName;
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
 
     public long getId() {
         return id;
