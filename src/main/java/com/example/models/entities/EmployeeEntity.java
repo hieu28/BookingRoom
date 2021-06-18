@@ -14,15 +14,15 @@ public class EmployeeEntity {
 
     @Column(name = "name")
     @NotEmpty(message = "{employee.name}")
-    @Size(max = 50,min = 5,message = "{employee.name.length}")
+    @Size(max = 50, min = 5, message = "{employee.name.length}")
     private String name;
 
     @NotEmpty(message = "Please enter the phone number !")
     @Column(name = "phone")
     private String phone;
 
-   @Column(name = "email")
-   private String email;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     @NotEmpty(message = "PLease enter password")
@@ -34,6 +34,16 @@ public class EmployeeEntity {
     @Column(name = "image")
     @NotEmpty(message = "PLease enter image")
     private String image;
+
+    public EmployeeEntity(long id, String name, String phone, String email, String password, long departmentId, String image) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.departmentId = departmentId;
+        this.image = image;
+    }
 
     public long getId() {
         return id;

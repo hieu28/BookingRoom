@@ -44,7 +44,7 @@ public class BookingService implements IBookingService {
         empl.setEmployeeId(bookingEntity.getEmployeeId());
         empl.setBookingId(bookingEntity.getId());
         empl = mapper.map(empl, EmployeeBookingEntity.class);
-        return  employeeBookingRepository.save(empl);
+        return employeeBookingRepository.save(empl);
 
 
     }

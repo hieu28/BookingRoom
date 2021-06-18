@@ -28,6 +28,7 @@ import java.util.Optional;
 @Service
 public class EmployeeService implements IEmployeeService {
 
+    public EmployeeEntity findByemail;
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -42,6 +43,14 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public EmployeeEntity findEmployee(String email) {
+        return employeeRepository.findByEmail(email).get();
+    }
 
     @Override
     public EmployeeResponse save(EmployeeRequest employee) {
@@ -86,7 +95,7 @@ public class EmployeeService implements IEmployeeService {
             for (DepartmentEntity item : emp) {
                 for (EmployeeRoleEntity employeeRoleEntity : emplr) {
                     for (RoleEntity roleEntity : role) {
-                        if (employeeResponse.getDepartmentId()==item.getId()&&employeeResponse.getId()==employeeRoleEntity.getEmployeeId()&&employeeRoleEntity.getRoleId()==roleEntity.getId()) {
+                        if (employeeResponse.getDepartmentId() == item.getId() && employeeResponse.getId() == employeeRoleEntity.getEmployeeId() && employeeRoleEntity.getRoleId() == roleEntity.getId()) {
                             employeeResponse.setRoleName(roleEntity.getName());
                             employeeResponse.setDepartmentName(item.getName());
                         }
@@ -120,8 +129,8 @@ public class EmployeeService implements IEmployeeService {
     public List<EmployeeResponse> findAllPaging(Pageable pageable) {
         List<EmployeeResponse> results = new ArrayList<>();
         List<EmployeeEntity> employeeEntity = employeeRepository.findAll(pageable).getContent();
-        for (EmployeeEntity item: employeeEntity){
-            EmployeeResponse employeeResponse = modelMapper.map(item,EmployeeResponse.class);
+        for (EmployeeEntity item : employeeEntity) {
+            EmployeeResponse employeeResponse = modelMapper.map(item, EmployeeResponse.class);
             results.add(employeeResponse);
         }
         return results;
