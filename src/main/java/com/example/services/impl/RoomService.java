@@ -73,7 +73,7 @@ public class RoomService implements IRoomService {
 
     @Override
     public List<RoomResponse> findByLocation(long id) {
-       Optional<List<RoomEntity>> room = roomRepository.findByLocationId(id);
+        Optional<List<RoomEntity>> room = roomRepository.findByLocationId(id);
         List<RoomResponse> result = new ArrayList<>();
         for (RoomEntity item : room.get()) {
             RoomResponse roomDTO = mapper.map(item, RoomResponse.class);

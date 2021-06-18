@@ -1,5 +1,7 @@
 package com.example.models.responses;
 
+import java.util.Date;
+
 public class RoomResponse {
     private Long id;
     private String name;
@@ -12,6 +14,7 @@ public class RoomResponse {
 
     public RoomResponse() {
     }
+
 
     public String getLocationName() {
         return locationName;
