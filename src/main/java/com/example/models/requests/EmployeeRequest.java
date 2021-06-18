@@ -9,6 +9,10 @@ public class EmployeeRequest {
     private long departmentId;
     private String image;
 
+    public String getEmail() {
+        return email;
+    }
+
     public long getId() {
         return id;
     }
@@ -33,8 +37,8 @@ public class EmployeeRequest {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmail(String email) {
+        return this.email;
     }
 
     public void setEmail(String email) {

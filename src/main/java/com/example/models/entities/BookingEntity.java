@@ -1,6 +1,9 @@
 package com.example.models.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
@@ -10,14 +13,15 @@ public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+
     @Column(name = "check_in")
     private Date checkIn;
 
     @Column(name = "check_out")
-    private Date chechOut;
+    private Date checkOut;
 
+    @Min(value = 1, message = "Số lượng người tối thiểu là 1")
+    @Max(value = 50, message = "Sức lượng người tối đa là 50")
     @Column(name = "number_of_member")
     private Long numberOfMember;
 
@@ -27,12 +31,23 @@ public class BookingEntity {
     @Column(name = "room_id")
     private Long roomId;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Column(name = "title")
@@ -54,12 +69,12 @@ public class BookingEntity {
         this.checkIn = checkIn;
     }
 
-    public Date getChechOut() {
-        return chechOut;
+    public Date getCheckOut() {
+        return checkOut;
     }
 
-    public void setChechOut(Date chechOut) {
-        this.chechOut = chechOut;
+    public void setCheckOut(Date checkOut) {
+        this.checkOut = checkOut;
     }
 
     public Long getNumberOfMember() {
