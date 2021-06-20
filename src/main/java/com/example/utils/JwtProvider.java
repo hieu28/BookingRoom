@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -42,9 +43,6 @@ public class JwtProvider {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-
-
-
     private Boolean isTokenExpired(String token) {
         return getExpirationFromToken(token).before(new Date());
     }
@@ -67,6 +65,18 @@ public class JwtProvider {
     public Boolean validateToken(String token, EmployeeEntity employee) {
         final String username = getUsernameFromToken(token);
         return (username.equals(employee.getEmail()) && !isTokenExpired(token));
+    }
+
+    public Boolean CheckToken(HttpServletRequest request){
+        String authorizationHeader = request.getHeader("Authorization");
+        String jwt;
+        String username;
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            jwt = authorizationHeader.substring(7);
+            username = getUsernameFromToken(jwt);
+        }
+
+
     }
 
 }

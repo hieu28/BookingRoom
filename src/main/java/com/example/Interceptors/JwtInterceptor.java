@@ -1,37 +1,30 @@
 package com.example.Interceptors;
 
-import com.example.services.JwtService;
+import com.example.utils.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class JwtInterceptor implements HandlerInterceptor {
     @Autowired
-    private JwtService jwtService;
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("kang");
-    }
+    private JwtProvider jwtProvider;
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println("as");
-    }
+    private final String[] AllowApi = {"/authen", "/login?error"};
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws  Exception{
         String url = request.getRequestURI();
         String method = request.getMethod();
         String authorizationHeader = request.getHeader("Authorization");
-        if(url.contains("authen")){
-        return true;
+
+        if(AllowApiInterceptor(request)){
+            return true;
         }
 
         if(authorizationHeader != null ){
-            if(jwtService.CheckToken(authorizationHeader)){
+            if(jwtProvider.CheckToken(HttpServletRequest request)){
                 return true;
             }
             response.getWriter().write("error invaild token");
@@ -45,8 +38,12 @@ public class JwtInterceptor implements HandlerInterceptor {
     }
 
 
-
-//    public static String resolveToken(HttpServletRequest req) {
-//        return req.getHeader("Authorization");
-//    }
+    public boolean AllowApiInterceptor(HttpServletRequest request){
+        for(String allowApi : AllowApi){
+            if(request.getRequestURI().contains(allowApi)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
