@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +32,47 @@ public class BookingService implements IBookingService {
 
     @Override
     @Transactional
-    public EmployeeBookingEntity save(BookingRequest bookingRequest) {
+    public String save(BookingRequest bookingRequest,long[] listide) {
         BookingEntity bookingEntity = new BookingEntity();
-//        List<BookingEntity> list = bookingRepository.findAllByIdE(bookingRequest.getEmployeeId());
-//        for (BookingEntity item: list){
-//           if (item.getCheckIn()>bookingRequest.getCheckIn()){
         bookingEntity = mapper.map(bookingRequest, BookingEntity.class);
+        List<BookingEntity> listbooking = bookingRepository.findAllByIdRoom(bookingEntity.getRoomId());
+        List<Long> Listt = new ArrayList<>();
+        for (BookingEntity itemr : listbooking) {
+            if (bookingEntity.getCheckIn().getTime()<(itemr.getCheckIn()).getTime()
+                    &&bookingEntity.getCheckOut().getTime()<itemr.getCheckIn().getTime()
+                    ||bookingEntity.getCheckIn().getTime()>(itemr.getCheckOut()).getTime()
+                    &&bookingEntity.getCheckOut().getTime()>itemr.getCheckOut().getTime()){
+                Listt.add(itemr.getId());
+                if(listbooking.size()==Listt.size()) {
+                    bookingEntity = bookingRepository.save(bookingEntity);
+                    List<EmployeeBookingEntity> liste = new ArrayList<>();
+                    for (long item : listide) {
+                        EmployeeBookingEntity empl = new EmployeeBookingEntity();
+                        empl.setEmployeeId(item);
+                        empl.setBookingId(bookingEntity.getId());
+                        empl = mapper.map(empl, EmployeeBookingEntity.class);
+                        liste.add(empl);
+                    }
+                    EmployeeBookingEntity emplad = new EmployeeBookingEntity();
+                    emplad.setEmployeeId(bookingEntity.getEmployeeId());
+                    emplad.setBookingId(bookingEntity.getId());
+                    liste.add(emplad);
+                    employeeBookingRepository.saveAll(liste);
+                }
+            }
+            else {
+                return "nhập ngày giờ trùng lặp";
+            }
+        }
+        return "thêm thành công";
+    }
+
+    @Override
+    public BookingReponse save(BookingReponse bkrq) {
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity = mapper.map(bkrq, BookingEntity.class);
         bookingEntity = bookingRepository.save(bookingEntity);
-        EmployeeBookingEntity empl = new EmployeeBookingEntity();
-        empl.setEmployeeId(bookingEntity.getEmployeeId());
-        empl.setBookingId(bookingEntity.getId());
-        empl = mapper.map(empl, EmployeeBookingEntity.class);
-        return  employeeBookingRepository.save(empl);
-
-
+        return mapper.map(bookingEntity, BookingReponse.class);
     }
 
     @Override
@@ -65,7 +91,6 @@ public class BookingService implements IBookingService {
     public BookingReponse getBookingById(Long id) {
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity = bookingRepository.findOneById(id);
-
         return mapper.map(bookingEntity, BookingReponse.class);
     }
 
@@ -127,7 +152,7 @@ public class BookingService implements IBookingService {
                                 && item.getEmployeeId() == itemra.getId()) {
                             myBookingFindAll.setTitle(item.getTitle());
                             myBookingFindAll.setCheckIn(item.getCheckIn());
-                            myBookingFindAll.setChechOut(item.getCheckOut());
+                            myBookingFindAll.setCheckOut(item.getCheckOut());
                             myBookingFindAll.setNumberOfMember(item.getNumberOfMember());
                             myBookingFindAll.setNameRoom(itemr.getName());
                             myBookingFindAll.setDescription(item.getDescription());
@@ -139,6 +164,5 @@ public class BookingService implements IBookingService {
             }
         }
         return result;
-
     }
 }
