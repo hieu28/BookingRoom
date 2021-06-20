@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-@Autowired
-LoginService loginService;
+    @Autowired
+    LoginService loginService;
 
     @PostMapping("/authen")
     public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception {
@@ -25,3 +25,4 @@ LoginService loginService;
         return new ResponseEntity<>(new JwtResponse(jwt,username),HttpStatus.OK);
     }
 }
+

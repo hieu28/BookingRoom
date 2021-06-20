@@ -4,8 +4,8 @@ import com.example.models.entities.*;
 import com.example.models.requests.BookingRequest;
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.MyBookingFindAll;
+import com.example.repositories.BookingDetailRepository;
 import com.example.repositories.BookingRepository;
-import com.example.repositories.EmployeeBookingRepository;
 import com.example.repositories.EmployeeRepository;
 import com.example.repositories.RoomRepository;
 import com.example.services.IBookingService;
@@ -27,24 +27,26 @@ public class BookingService implements IBookingService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private EmployeeBookingRepository employeeBookingRepository;
+    private BookingDetailRepository bookingDetailRepository;
+
     @Autowired
     private ModelMapper mapper;
 
     @Override
     @Transactional
-    public EmployeeBookingEntity save(BookingRequest bookingRequest) {
+    public BookingDetailEntity save(BookingRequest bookingRequest) {
         BookingEntity bookingEntity = new BookingEntity();
 //        List<BookingEntity> list = bookingRepository.findAllByIdE(bookingRequest.getEmployeeId());
 //        for (BookingEntity item: list){
 //           if (item.getCheckIn()>bookingRequest.getCheckIn()){
         bookingEntity = mapper.map(bookingRequest, BookingEntity.class);
         bookingEntity = bookingRepository.save(bookingEntity);
-        EmployeeBookingEntity empl = new EmployeeBookingEntity();
+        BookingDetailEntity empl = new BookingDetailEntity();
         empl.setEmployeeId(bookingEntity.getEmployeeId());
         empl.setBookingId(bookingEntity.getId());
-        empl = mapper.map(empl, EmployeeBookingEntity.class);
-        return employeeBookingRepository.save(empl);
+        empl = mapper.map(empl, BookingDetailEntity.class);
+        return  bookingDetailRepository.save(empl);
+
 
 
     }
@@ -109,36 +111,36 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<MyBookingFindAll> MyGetAllBooking(Long id) {
-        List<EmployeeBookingEntity> ebk = employeeBookingRepository.findAllByIdB(id);
-        List<MyBookingFindAll> result = new ArrayList<>();
-        for (EmployeeBookingEntity item : ebk) {
-            MyBookingFindAll emplBk = mapper.map(item, MyBookingFindAll.class);
-            result.add(emplBk);
-        }
-        List<BookingEntity> bke = bookingRepository.findAll();
-        List<RoomEntity> re = roomRepository.findAll();
-        List<EmployeeEntity> ee = employeeRepository.findAll();
-        for (MyBookingFindAll myBookingFindAll : result) {
-            for (BookingEntity item : bke) {
-                for (EmployeeEntity itemra : ee) {
-                    for (RoomEntity itemr : re) {
-                        if (myBookingFindAll.getBookingId() == item.getId()
-                                && item.getRoomId() == itemr.getId()
-                                && item.getEmployeeId() == itemra.getId()) {
-                            myBookingFindAll.setTitle(item.getTitle());
-                            myBookingFindAll.setCheckIn(item.getCheckIn());
-                            myBookingFindAll.setChechOut(item.getCheckOut());
-                            myBookingFindAll.setNumberOfMember(item.getNumberOfMember());
-                            myBookingFindAll.setNameRoom(itemr.getName());
-                            myBookingFindAll.setDescription(item.getDescription());
-                            myBookingFindAll.setRoomId(itemr.getId());
-                            myBookingFindAll.setNameAdBooking(itemra.getName());
-                        }
-                    }
-                }
-            }
-        }
-        return result;
+      //  List<BookingDetailEntity> ebk = bookingDetailRepository.findAllByIdB(id);
+//        List<MyBookingFindAll> result = new ArrayList<>();
+//        for (BookingDetailEntity item : ebk) {
+//            MyBookingFindAll emplBk = mapper.map(item, MyBookingFindAll.class);
+//            result.add(emplBk);
+//        }
+//        List<BookingEntity> bke = bookingRepository.findAll();
+//        List<RoomEntity> re = roomRepository.findAll();
+//        List<EmployeeEntity> ee = employeeRepository.findAll();
+//        for (MyBookingFindAll myBookingFindAll : result) {
+//            for (BookingEntity item : bke) {
+//                for (EmployeeEntity itemra : ee) {
+//                    for (RoomEntity itemr : re) {
+//                        if (myBookingFindAll.getBookingId() == item.getId()
+//                                && item.getRoomId() == itemr.getId()
+//                                && item.getEmployeeId() == itemra.getId()) {
+//                            myBookingFindAll.setTitle(item.getTitle());
+//                            myBookingFindAll.setCheckIn(item.getCheckIn());
+//                            myBookingFindAll.setChechOut(item.getCheckOut());
+//                            myBookingFindAll.setNumberOfMember(item.getNumberOfMember());
+//                            myBookingFindAll.setNameRoom(itemr.getName());
+//                            myBookingFindAll.setDescription(item.getDescription());
+//                            myBookingFindAll.setRoomId(itemr.getId());
+//                            myBookingFindAll.setNameAdBooking(itemra.getName());
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        return null;
 
     }
 }
