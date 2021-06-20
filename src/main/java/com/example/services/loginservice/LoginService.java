@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
     private final EmployeeService employeeService;
-    private JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
-    public LoginService(EmployeeService employeeService) {
+    public LoginService(EmployeeService employeeService, JwtProvider jwtProvider) {
         this.employeeService = employeeService;
+        this.jwtProvider = jwtProvider;
     }
 
     public JwtProvider checkUser(String email, String password) throws Exception {

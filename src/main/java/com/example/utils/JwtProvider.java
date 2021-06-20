@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.net.Authenticator;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -34,9 +35,6 @@ public class JwtProvider {
         this.template = template;
     }
 
-    public void putData(String uniqueKey, String key, Object results) {
-        template.opsForHash().put(uniqueKey, key, results);
-    }
 
 
     public String getUsernameFromToken(String token) {
@@ -80,6 +78,7 @@ public class JwtProvider {
     }
 
     public Boolean validateToken(String token, EmployeeEntity employee) {
+
         final String username = getUsernameFromToken(token);
         return (username.equals(employee.getEmail()) && !isTokenExpired(token));
     }
