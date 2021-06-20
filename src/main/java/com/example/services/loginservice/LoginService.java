@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
     private final EmployeeService employeeService;
-    private JwtProvider jwtProvider;
 
-    public LoginService(EmployeeService employeeService) {
+    private final JwtProvider jwtProvider;
+
+    public LoginService(EmployeeService employeeService, JwtProvider jwtProvider) {
         this.employeeService = employeeService;
+        this.jwtProvider = jwtProvider;
     }
 
 
@@ -22,10 +24,10 @@ public class LoginService {
     public JwtProvider checkUser(String email, String password) throws Exception {
         EmployeeEntity employee = employeeService.findEmployee(email);
         if(!email.equals(employee.getEmail()))throw new UserPassnotFound(); {
-            System.out.println("cac");
+            System.out.println("Username not found!");
         }
         if(!password.equals(employee.getPassword())) throw new PasswordNotFoundException();{
-            System.out.println("cac");
+            System.out.println("Password not found!");
         }
         return jwtProvider;
 

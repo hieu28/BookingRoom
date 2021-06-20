@@ -9,8 +9,11 @@ import java.util.List;
 
 public interface IRoleService {
     RoleResponse save(RoleRequest role);
+
     boolean delete(Long id);
+
     RoleResponse findById(Long id);
+
     List<RoleResponse> findAll();
 
 }

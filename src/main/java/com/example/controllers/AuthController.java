@@ -16,9 +16,11 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpSession session){
+
+    public String login(HttpSession session) {
         if (session.getAttribute("isLogin") != null &&
-                (Boolean) session.getAttribute("isLogin") == true){
+                (Boolean) session.getAttribute("isLogin") == true) {
+
             return "redirect:/success";
         }
         return "login";
