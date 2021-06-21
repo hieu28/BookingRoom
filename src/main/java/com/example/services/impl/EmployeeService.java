@@ -62,13 +62,9 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     @Transactional
-    public EmployeeEntity findById(Long id) throws RelationNotFoundException {
-        Optional<EmployeeEntity> entity = this.employeeRepository.findById(id);
-        if (entity.isPresent()) {
-            return entity.get();
-        } else {
-            throw new RelationNotFoundException("Record not found with id : " + id);
-        }
+    public EmployeeResponse findById(Long id) {
+         Optional<EmployeeEntity> room = employeeRepository.findById(id);
+        return modelMapper.map(room.get(), EmployeeResponse.class);
     }
 
     @Override

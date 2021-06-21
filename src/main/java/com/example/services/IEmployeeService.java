@@ -10,15 +10,10 @@ import java.util.List;
 
 public interface IEmployeeService {
     EmployeeResponse save(EmployeeRequest employee);
-
     boolean delete(Long id);
-
-    EmployeeEntity findById(Long id) throws RelationNotFoundException;
-
+    EmployeeResponse findById(Long id);
     List<EmployeeResponse> findAll();
-
     List<EmployeeResponse> findByEmail(String email);
-
     List<EmployeeResponse> findAllPaging(Pageable pageable);
 
     int totalItem();
