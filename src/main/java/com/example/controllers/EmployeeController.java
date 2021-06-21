@@ -1,28 +1,21 @@
 package com.example.controllers;
 
-import com.example.models.entities.ChangePassword;
 import com.example.models.entities.EmployeeEntity;
 import com.example.models.requests.EmployeeRequest;
 import com.example.models.responses.EmployeeFageResponse;
 import com.example.models.responses.EmployeeResponse;
 import com.example.services.IEmployeeService;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RelationNotFoundException;
-import javax.validation.Valid;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping
 public class EmployeeController {
-
-    private static final Logger logger = (Logger) LogManager.getLogger(EmployeeController.class);
-
 
     @Autowired
     IEmployeeService employeeService;

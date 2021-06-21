@@ -2,14 +2,10 @@ package com.example.services.impl;
 
 import com.example.models.entities.DepartmentEntity;
 import com.example.models.entities.EmployeeEntity;
-import com.example.models.entities.EmployeeRoleEntity;
-import com.example.models.entities.RoleEntity;
 import com.example.models.requests.EmployeeRequest;
 import com.example.models.responses.EmployeeResponse;
 import com.example.repositories.DeprtmentRepository;
 import com.example.repositories.EmployeeRepository;
-import com.example.repositories.EmployeeRoleRepository;
-import com.example.repositories.RoleRepository;
 import com.example.services.IEmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +27,6 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     DeprtmentRepository deprtmentRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
-    EmployeeRoleRepository employeeRoleRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -89,21 +79,6 @@ public class EmployeeService implements IEmployeeService {
         for (EmployeeEntity item : entities) {
             EmployeeResponse employee = modelMapper.map(item, EmployeeResponse.class);
             r.add(employee);
-        }
-        List<DepartmentEntity> emp = deprtmentRepository.findAll();
-        List<RoleEntity> role = roleRepository.findAll();
-        List<EmployeeRoleEntity> epr = employeeRoleRepository.findAll();
-        for (EmployeeResponse employeeResponse : r) {
-            for (DepartmentEntity item : emp) {
-                for (EmployeeRoleEntity employeeRoleEntity : epr) {
-                    for (RoleEntity roleEntity : role) {
-                        if (employeeResponse.getDepartmentId() == item.getId() && employeeResponse.getId() == employeeRoleEntity.getEmployeeId() && employeeRoleEntity.getRoleId() == roleEntity.getId()) {
-                            employeeResponse.setRoleName(roleEntity.getName());
-                            employeeResponse.setDepartmentName(item.getName());
-                        }
-                    }
-                }
-            }
         }
         return r;
     }
