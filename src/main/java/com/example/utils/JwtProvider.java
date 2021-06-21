@@ -50,8 +50,10 @@ public class JwtProvider {
     public String generateToken(EmployeeEntity employee) {
 
         Map<String, Object> claims = new HashMap<>();
-        template.opsForValue().set(String.valueOf(claims), employee.getEmail());
-        return doGenerateToken(claims, employee.getEmail());
+        //template.opsForValue().set(String.valueOf(claims), employee.getEmail());
+        String jwt =  doGenerateToken(claims, employee.getEmail());
+        template.opsForValue().set(jwt, employee.getId());
+        return jwt;
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
@@ -62,21 +64,21 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, EmployeeEntity employee) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(employee.getEmail()) && !isTokenExpired(token));
+    public Boolean validateToken(String jwt) {
+        final String username = getUsernameFromToken(jwt);
+        return (username.equals(template.opsForValue().get(jwt)) && !isTokenExpired(jwt));
     }
 
-    public Boolean CheckToken(HttpServletRequest request){
-        String authorizationHeader = request.getHeader("Authorization");
-        String jwt;
-        String username;
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-            jwt = authorizationHeader.substring(7);
-            username = getUsernameFromToken(jwt);
-        }
+    public Boolean CheckToken(String authorizationHeader){
 
-
+           String jwt = authorizationHeader.substring(7);
+           String username = getUsernameFromToken(jwt);
+           if(jwt != null && username != null){
+               if(validateToken(jwt)){
+                   return true;
+               }
+           }
+           return false;
     }
 
 }

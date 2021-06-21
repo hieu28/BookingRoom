@@ -1,21 +1,18 @@
 package com.example.controllers;
 
+import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
-import com.example.models.responses.RoomFindAllIndex;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
 @CrossOrigin
 @RestController
 public class RoomController {
     @Autowired
     private IRoomService roomService;
-
-    @Autowired
-    private ModelMapper mapper;
 
     @GetMapping(value = "/room")
     public List<RoomResponse> getAll(){
@@ -26,6 +23,12 @@ public class RoomController {
     public RoomResponse getById(@PathVariable("id") long id){
         return roomService.findById(id);
     }
+
+    @GetMapping(value = "/room/list/{id}")
+    public List<RoomResponse> getByLocation(@PathVariable("id") long id){
+        return  roomService.findByLocation(id);
+    }
+
 
     @PostMapping(value = "/room")
     public RoomResponse createRoom(@RequestBody RoomRequest room) {
@@ -41,10 +44,5 @@ public class RoomController {
     @DeleteMapping(value = "/room/{id}")
     public void deleteNew(@PathVariable("id") long ids) {
         roomService.delete(ids);
-    }
-    @GetMapping(value = "/room/roomidex/{id}")
-    public List<RoomFindAllIndex> ShowRoomByLocatiton(@PathVariable("id") long id) {
-
-        return roomService.findAllRoomById(id);
     }
 }

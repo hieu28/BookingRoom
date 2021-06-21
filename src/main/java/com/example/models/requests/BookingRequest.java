@@ -1,6 +1,6 @@
 package com.example.models.requests;
-
 import java.util.Date;
+
 
 public class BookingRequest {
     private Long id;
@@ -10,6 +10,15 @@ public class BookingRequest {
     private Long employeeId;
     private Long roomId;
     private String title;
+    private Long bookingId;
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
 
     public Long getId() {
         return id;
