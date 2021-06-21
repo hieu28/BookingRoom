@@ -1,7 +1,5 @@
 package com.example.models.entities;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -20,7 +18,7 @@ public class EmployeeEntity {
 
     private String name;
 
-    @NotEmpty(message = "Please enter the phone number")
+    @NotNull(message = "Please enter the phone number")
     @Column(name = "phone")
     private String phone;
 
