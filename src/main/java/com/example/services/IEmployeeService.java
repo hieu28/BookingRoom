@@ -16,5 +16,6 @@ public interface IEmployeeService {
     List<EmployeeResponse> findByEmail(String email);
     List<EmployeeResponse>findAllPaging(Pageable pageable);
     int totalItem();
+    void deleteList(long[] ids);
 
 }

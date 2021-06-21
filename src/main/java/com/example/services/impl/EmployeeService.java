@@ -26,7 +26,6 @@ import java.util.Optional;
 @Service
 public class EmployeeService implements IEmployeeService {
 
-    public EmployeeEntity findByemail;
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -41,6 +40,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     ModelMapper modelMapper;
+
 
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -92,12 +92,12 @@ public class EmployeeService implements IEmployeeService {
         }
         List<DepartmentEntity> emp = deprtmentRepository.findAll();
         List<RoleEntity> role = roleRepository.findAll();
-        List<EmployeeRoleEntity> emplr = employeeRoleRepository.findAll();
+        List<EmployeeRoleEntity> epr = employeeRoleRepository.findAll();
         for (EmployeeResponse employeeResponse : r) {
             for (DepartmentEntity item : emp) {
-                for (EmployeeRoleEntity employeeRoleEntity : emplr) {
+                for (EmployeeRoleEntity employeeRoleEntity : epr) {
                     for (RoleEntity roleEntity : role) {
-                        if (employeeResponse.getDepartmentId()==item.getId()&&employeeResponse.getId()==employeeRoleEntity.getEmployeeId()&&employeeRoleEntity.getRoleId()==roleEntity.getId()) {
+                        if (employeeResponse.getDepartmentId() == item.getId() && employeeResponse.getId() == employeeRoleEntity.getEmployeeId() && employeeRoleEntity.getRoleId() == roleEntity.getId()) {
                             employeeResponse.setRoleName(roleEntity.getName());
                             employeeResponse.setDepartmentName(item.getName());
                         }
@@ -113,9 +113,9 @@ public class EmployeeService implements IEmployeeService {
     @Transactional
     public List<EmployeeResponse> findByEmail(String email) {
         try {
-            List<EmployeeEntity> empl = employeeRepository.search(email);
+            List<EmployeeEntity> epl = employeeRepository.search(email);
             List<EmployeeResponse> eo = new ArrayList<>();
-            for (EmployeeEntity item : empl) {
+            for (EmployeeEntity item : epl) {
                 EmployeeResponse employee = modelMapper.map(item, EmployeeResponse.class);
                 eo.add(employee);
             }
@@ -131,8 +131,8 @@ public class EmployeeService implements IEmployeeService {
     public List<EmployeeResponse> findAllPaging(Pageable pageable) {
         List<EmployeeResponse> results = new ArrayList<>();
         List<EmployeeEntity> employeeEntity = employeeRepository.findAll(pageable).getContent();
-        for (EmployeeEntity item: employeeEntity){
-            EmployeeResponse employeeResponse = modelMapper.map(item,EmployeeResponse.class);
+        for (EmployeeEntity item : employeeEntity) {
+            EmployeeResponse employeeResponse = modelMapper.map(item, EmployeeResponse.class);
             results.add(employeeResponse);
         }
         return results;
@@ -141,6 +141,13 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public int totalItem() {
         return (int) employeeRepository.count();
+    }
+
+    @Override
+    public void deleteList(long[] ids) {
+        for (long item : ids) {
+            employeeRepository.deleteById(item);
+        }
     }
 
 }
