@@ -48,12 +48,11 @@ public class JwtProvider {
         return getExpirationFromToken(token).before(new Date());
     }
 
-    public String generateToken(EmployeeEntity employee) {
+    public String generateToken(String email) {
 
         Map<String, Object> claims = new HashMap<>();
-        //template.opsForValue().set(String.valueOf(claims), employee.getEmail());
-        String jwt =  doGenerateToken(claims, employee.getEmail());
-        template.opsForValue().set(jwt, employee.getId());
+        String jwt = doGenerateToken(claims, email);
+        template.opsForValue().set(jwt, email);
         return jwt;
     }
 
