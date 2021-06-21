@@ -1,7 +1,6 @@
 
 package com.example.utils;
 
-import com.example.models.entities.EmployeeEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -63,14 +61,14 @@ public class JwtProvider {
                 .setExpiration(Date.from(expiration))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
-
+    // check username tu token voi username trong redis, check luon token da het han chua
     public Boolean validateToken(String jwt) {
         final String username = getUsernameFromToken(jwt);
         return (username.equals(template.opsForValue().get(jwt)) && !isTokenExpired(jwt));
     }
 
     public Boolean CheckToken(String authorizationHeader){
-
+            // kiem tra token
            String jwt = authorizationHeader.substring(7);
            String username = getUsernameFromToken(jwt);
            if(jwt != null && username != null){

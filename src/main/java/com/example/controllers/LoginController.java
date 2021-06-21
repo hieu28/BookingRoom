@@ -30,7 +30,7 @@ public class LoginController {
         EmployeeEntity employee = loginService.checkUser(username, password);
         String jwt = "";
         if (employee != null) {
-            jwt += jwtProvider.generateToken(username);
+            jwt = jwtProvider.generateToken(username);
 
         }
         return new ResponseEntity<>(new JwtResponse(jwt, username), HttpStatus.OK);
