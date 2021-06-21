@@ -37,7 +37,6 @@ public class DepartmentService implements IDepartmentService {
     public DepartmentReponse getDeparmentById(Long id) {
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity = departmentRepository.findOneById(id);
-
         return mapper.map(departmentEntity, DepartmentReponse.class);
     }
     @Override

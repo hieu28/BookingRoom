@@ -14,10 +14,11 @@ import java.util.Optional;
 public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
 
 
-    Optional<EmployeeEntity> findByEmail(String email);
-
     @Query(value = "SELECT * FROM employee  WHERE email LIKE '%'  :keyword '%'",nativeQuery = true)
     List<EmployeeEntity> search(@Param("keyword") String keyword);
+
+
+    Optional<EmployeeEntity> findByEmail(String email);
 
 
 }

@@ -18,4 +18,5 @@ public class ControllerAdvice {
     public ResponseEntity<Object> exception(PasswordNotFoundException exception) {
         return new ResponseEntity<>("Password not found", HttpStatus.UNAUTHORIZED);
     }
+
 }

@@ -14,15 +14,15 @@ public class EmployeeEntity {
 
     @Column(name = "name")
     @NotEmpty(message = "{employee.name}")
-    @Size(max = 50,min = 5,message = "{employee.name.length}")
+    @Size(max = 50, min = 5, message = "{employee.name.length}")
     private String name;
 
     @NotEmpty(message = "Please enter the phone number !")
     @Column(name = "phone")
     private String phone;
 
-   @Column(name = "email")
-   private String email;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     @NotEmpty(message = "PLease enter password")
