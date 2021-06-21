@@ -30,16 +30,6 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-    public EmployeeEntity findEmployee(String email) {
-        return employeeRepository.findByEmail(email).get();
-    }
-
-
     @Override
     @Transactional
     public EmployeeResponse save(EmployeeRequest employee) {
@@ -82,7 +72,6 @@ public class EmployeeService implements IEmployeeService {
         }
         return r;
     }
-
 
     @Override
     @Transactional

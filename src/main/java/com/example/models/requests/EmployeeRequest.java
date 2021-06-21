@@ -8,6 +8,15 @@ public class EmployeeRequest {
     private String password;
     private long departmentId;
     private String image;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getEmail() {
         return email;
