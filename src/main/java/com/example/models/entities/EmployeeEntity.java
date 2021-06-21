@@ -22,7 +22,6 @@ public class EmployeeEntity {
     @Column(name = "phone")
     private String phone;
 
-    @Email
     @Column(name = "email")
     @NotNull(message = "Please enter email")
     private String email;
@@ -38,17 +37,19 @@ public class EmployeeEntity {
     @NotNull(message = "PLease enter image")
     private String image;
 
-    public EmployeeEntity(long id, String name, String phone, String email, String password, long departmentId, String image) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.departmentId = departmentId;
-        this.image = image;
-    }
+    @Column(name = "role")
+    @NotNull(message = "PLease enter role")
+    private String role;
+
 
     public EmployeeEntity() {
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public long getId() {
