@@ -8,7 +8,6 @@ import com.example.services.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RelationNotFoundException;
@@ -21,45 +20,69 @@ public class EmployeeController {
     @Autowired
     IEmployeeService employeeService;
 
+    //Put out employee
     @GetMapping("/employee")
     public List<EmployeeResponse> getAllEmployee() {
         return employeeService.findAll();
     }
 
+    //Put out employee by id
     @GetMapping("/employee/{id}")
-    public ResponseEntity<EmployeeEntity> getById(@PathVariable("id") long id) throws RelationNotFoundException {
-        return ResponseEntity.ok().body(employeeService.findById(id));
+    public EmployeeEntity getById(
+            @PathVariable("id") long id)
+            throws RelationNotFoundException {
+        return employeeService.findById(id);
     }
 
-
+    //More employee
     @PostMapping("/employee")
-    public EmployeeResponse createEmployee(@RequestBody EmployeeRequest entity){
-       return employeeService.save(entity);
+    public EmployeeResponse createEmployee(
+            @RequestBody EmployeeRequest employee) {
+        return employeeService.save(employee);
     }
 
+    //Repair employee by id
     @PutMapping("/employee/{id}")
-    public EmployeeResponse updateEmployee(@RequestBody EmployeeRequest model , @PathVariable("id") long id){
+    public EmployeeResponse updateEmployee(
+            @RequestBody EmployeeRequest model,
+            @PathVariable("id") long id) {
         model.setId(id);
         return employeeService.save(model);
     }
 
+    //Delete employee
+    @DeleteMapping("/employee")
+    public void deleteNew(
+            @RequestBody long[] ids) {
+        employeeService.deleteList(ids);
+    }
+
+    //Delete employee by id
     @DeleteMapping("/employee/{id}")
-    public void deleteEmployee(@PathVariable("id") long id){
+    public void deleteEmployee(
+            @PathVariable("id") long id) {
         employeeService.delete(id);
     }
 
+    //Search by email
     @GetMapping("/employee/list/{email}")
-    public List<EmployeeResponse> search(@PathVariable("email") String email){
+    public List<EmployeeResponse> search(
+            @PathVariable("email") String email) {
 
         return employeeService.findByEmail(email);
     }
-    @GetMapping(value = "/employee/{page}/{limit}")
-    public EmployeeFageResponse ShowPaging(@PathVariable("page") int page, @PathVariable("limit") int limit) {
+
+    //Paging
+    @GetMapping("/employee/{page}/{limit}")
+    public EmployeeFageResponse ShowPaging(
+            @PathVariable("page") int page,
+            @PathVariable("limit") int limit) {
         EmployeeFageResponse result = new EmployeeFageResponse();
         result.setPage(page);
-        Pageable pageable = PageRequest.of(page-1,limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
         result.setListresult(employeeService.findAllPaging(pageable));
-        result.setTotalpage((int)Math.ceil((double)(employeeService.totalItem())/limit));
+        result.setTotalpage((int) Math.ceil((double) (employeeService.totalItem()) / limit));
         return result;
     }
+
 }

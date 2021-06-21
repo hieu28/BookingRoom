@@ -10,14 +10,14 @@ public class EmployeeResponse {
     private long departmentId;
     private String image;
     private String departmentName;
-    private String roleName;
+    private String role;
 
-    public String getRoleName() {
-        return roleName;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getDepartmentName() {
