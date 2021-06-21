@@ -45,6 +45,10 @@ public class EmployeeEntity {
         this.image = image;
     }
 
+    public EmployeeEntity() {
+
+    }
+
     public long getId() {
         return id;
     }

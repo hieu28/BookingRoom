@@ -5,10 +5,7 @@ import com.example.models.entities.EmployeeEntity;
 import com.example.models.entities.EmployeeRoleEntity;
 import com.example.models.entities.RoleEntity;
 import com.example.models.requests.EmployeeRequest;
-import com.example.models.responses.DepartmentReponse;
 import com.example.models.responses.EmployeeResponse;
-import com.example.models.responses.EmployeeRoleResponse;
-import com.example.models.responses.RoleResponse;
 import com.example.repositories.DeprtmentRepository;
 import com.example.repositories.EmployeeRepository;
 import com.example.repositories.EmployeeRoleRepository;
@@ -28,9 +25,8 @@ import java.util.Optional;
 @Service
 public class EmployeeService implements IEmployeeService {
 
-    public EmployeeEntity findByemail;
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     DeprtmentRepository deprtmentRepository;
@@ -44,12 +40,10 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-    public EmployeeEntity findEmployee(String email) {
-        return employeeRepository.findByEmail(email).get();
+    //Login
+    @Override
+    public Optional<EmployeeEntity> findByUsername(String email) {
+        return employeeRepository.findByEmail(email);
     }
 
     @Override
@@ -121,7 +115,6 @@ public class EmployeeService implements IEmployeeService {
             e.getMessage();
             return null;
         }
-
 
     }
 

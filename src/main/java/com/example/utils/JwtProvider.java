@@ -1,12 +1,10 @@
 package com.example.utils;
 
-import com.example.models.entities.EmployeeEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +17,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtProvider {
+
     @Value("${jwt.jwtSecret}")
     private String SECRET_KEY;
 
@@ -42,19 +41,15 @@ public class JwtProvider {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-
-
-
     private Boolean isTokenExpired(String token) {
         return getExpirationFromToken(token).before(new Date());
     }
 
-    public String generateToken(EmployeeEntity employee) {
+    public String generateToken(String email) {
 
         Map<String, Object> claims = new HashMap<>();
-        //template.opsForValue().set(String.valueOf(claims), employee.getEmail());
-        String jwt =  doGenerateToken(claims, employee.getEmail());
-        template.opsForValue().set(jwt, employee.getId());
+        String jwt = doGenerateToken(claims, email);
+        template.opsForValue().set(jwt, email);
         return jwt;
     }
 
@@ -66,9 +61,9 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, EmployeeEntity employee) {
+    public Boolean validateToken(String token, String email) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(employee.getEmail()) && !isTokenExpired(token));
+        return (username.equals(email) && !isTokenExpired(token));
     }
 
 }
