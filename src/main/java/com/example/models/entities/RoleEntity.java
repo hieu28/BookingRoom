@@ -10,7 +10,7 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-        @Column(name = "name")
+        @Co
     private String name;
 
     public long getId() {

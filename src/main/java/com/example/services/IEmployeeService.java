@@ -22,5 +22,6 @@ public interface IEmployeeService {
     List<EmployeeResponse> findAllPaging(Pageable pageable);
 
     int totalItem();
+    void deleteList(long[] ids);
 
 }
