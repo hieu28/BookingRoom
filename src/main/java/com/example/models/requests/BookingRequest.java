@@ -12,14 +12,6 @@ public class BookingRequest {
     private String title;
     private Long bookingId;
 
-    public Long getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
-    }
-
     public Long getId() {
         return id;
     }
@@ -74,5 +66,13 @@ public class BookingRequest {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
     }
 }
