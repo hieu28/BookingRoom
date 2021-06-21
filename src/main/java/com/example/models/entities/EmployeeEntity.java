@@ -22,7 +22,6 @@ public class EmployeeEntity {
     @Column(name = "phone")
     private String phone;
 
-
     @Email
     @Column(name = "email")
     @NotNull(message = "Please enter email")

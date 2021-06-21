@@ -31,6 +31,17 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
+<<<<<<< HEAD
+=======
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public EmployeeEntity findEmployee(String email) {
+        return employeeRepository.findByEmail(email).get();
+    }
+>>>>>>> origin/feature/qlemployee
 
     @Override
     @Transactional
@@ -72,6 +83,24 @@ public class EmployeeService implements IEmployeeService {
             EmployeeResponse employee = modelMapper.map(item, EmployeeResponse.class);
             r.add(employee);
         }
+<<<<<<< HEAD
+=======
+        List<DepartmentEntity> emp = deprtmentRepository.findAll();
+        List<RoleEntity> role = roleRepository.findAll();
+        List<EmployeeRoleEntity> epr = employeeRoleRepository.findAll();
+        for (EmployeeResponse employeeResponse : r) {
+            for (DepartmentEntity item : emp) {
+                for (EmployeeRoleEntity employeeRoleEntity : epr) {
+                    for (RoleEntity roleEntity : role) {
+                        if (employeeResponse.getDepartmentId() == item.getId() && employeeResponse.getId() == employeeRoleEntity.getEmployeeId() && employeeRoleEntity.getRoleId() == roleEntity.getId()) {
+                            employeeResponse.setRoleName(roleEntity.getName());
+                            employeeResponse.setDepartmentName(item.getName());
+                        }
+                    }
+                }
+            }
+        }
+>>>>>>> origin/feature/qlemployee
         return r;
     }
 
