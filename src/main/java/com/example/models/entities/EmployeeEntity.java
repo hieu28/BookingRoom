@@ -1,8 +1,8 @@
 package com.example.models.entities;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -13,26 +13,29 @@ public class EmployeeEntity {
     private long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "{employee.name}")
-    @Size(max = 50, min = 5, message = "{employee.name.length}")
+    @NotNull
+    @Size(max = 50, min = 2, message = "Name must be at least 2 characters and maximum 50 characterss")
+
     private String name;
 
-    @NotEmpty(message = "Please enter the phone number !")
+    @NotNull(message = "Please enter the phone number")
     @Column(name = "phone")
     private String phone;
 
+    @Email
     @Column(name = "email")
+    @NotNull(message = "Please enter email")
     private String email;
 
     @Column(name = "password")
-    @NotEmpty(message = "PLease enter password")
+    @NotNull(message = "PLease enter password")
     private String password;
 
     @Column(name = "department_id")
     private long departmentId;
 
     @Column(name = "image")
-    @NotEmpty(message = "PLease enter image")
+    @NotNull(message = "PLease enter image")
     private String image;
 
     public EmployeeEntity(long id, String name, String phone, String email, String password, long departmentId, String image) {
@@ -43,6 +46,9 @@ public class EmployeeEntity {
         this.password = password;
         this.departmentId = departmentId;
         this.image = image;
+    }
+
+    public EmployeeEntity() {
     }
 
     public long getId() {
