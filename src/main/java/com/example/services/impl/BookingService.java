@@ -1,6 +1,9 @@
 package com.example.services.impl;
 
-import com.example.models.entities.*;
+import com.example.models.entities.BookingDetailEntity;
+import com.example.models.entities.BookingEntity;
+import com.example.models.entities.EmployeeEntity;
+import com.example.models.entities.RoomEntity;
 import com.example.models.requests.BookingRequest;
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.MyBookingFindAll;
@@ -16,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -117,7 +119,7 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<MyBookingFindAll> MyGetAllBooking(Long id) {
-        List<BookingDetailEntity> ebk = bookingDetailRepository.findAllById(Collections.singleton(id));
+        List<BookingDetailEntity> ebk = bookingDetailRepository.findAllByIdB(id);
         List<MyBookingFindAll> result = new ArrayList<>();
         for (BookingDetailEntity item : ebk) {
             MyBookingFindAll emplBk = mapper.map(item, MyBookingFindAll.class);
@@ -128,11 +130,9 @@ public class BookingService implements IBookingService {
         List<EmployeeEntity> ee = employeeRepository.findAll();
         for (MyBookingFindAll myBookingFindAll : result) {
             for (BookingEntity item : bke) {
-                for (EmployeeEntity itemra : ee) {
                     for (RoomEntity itemr : re) {
                         if (myBookingFindAll.getBookingId() == item.getId()
-                                && item.getRoomId() == itemr.getId()
-                                && item.getEmployeeId() == itemra.getId()) {
+                                && item.getRoomId() == itemr.getId()) {
                             myBookingFindAll.setTitle(item.getTitle());
                             myBookingFindAll.setCheckIn(item.getCheckIn());
                             myBookingFindAll.setCheckOut(item.getCheckOut());
@@ -140,10 +140,8 @@ public class BookingService implements IBookingService {
                             myBookingFindAll.setNameRoom(itemr.getName());
                             myBookingFindAll.setDescription(item.getDescription());
                             myBookingFindAll.setRoomId(itemr.getId());
-                            myBookingFindAll.setNameAdBooking(itemra.getName());
                         }
                     }
-                }
             }
         }
         return result;
