@@ -1,6 +1,5 @@
 package com.example.controllers;
 
-import com.example.models.entities.ChangePassword;
 import com.example.models.entities.EmployeeEntity;
 import com.example.models.requests.EmployeeRequest;
 import com.example.models.responses.EmployeeFageResponse;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RelationNotFoundException;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +19,6 @@ import java.util.logging.Logger;
 @RequestMapping
 public class EmployeeController {
 
-    private static final Logger logger = (Logger) LogManager.getLogger(EmployeeController.class);
 
 
     @Autowired
