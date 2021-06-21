@@ -22,13 +22,19 @@ import java.util.Optional;
 public class EmployeeService implements IEmployeeService {
 
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     DeprtmentRepository deprtmentRepository;
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Override
+    public Optional<EmployeeEntity> findByUsername(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+
 
     @Override
     @Transactional
@@ -88,6 +94,7 @@ public class EmployeeService implements IEmployeeService {
             e.getMessage();
             return null;
         }
+
     }
 
     @Override

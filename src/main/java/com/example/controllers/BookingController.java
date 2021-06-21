@@ -1,18 +1,15 @@
 package com.example.controllers;
 
 import com.example.models.requests.BookingRequest;
-import com.example.models.requests.RoomRequest;
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.BookingfindAllPagReponse;
 import com.example.models.responses.MyBookingFindAll;
-import com.example.models.responses.RoomResponse;
 import com.example.services.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin

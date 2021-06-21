@@ -1,7 +1,6 @@
 package com.example.models.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -51,6 +50,7 @@ public class EmployeeEntity {
     public void setRole(String role) {
         this.role = role;
     }
+
 
     public long getId() {
         return id;
