@@ -14,15 +14,12 @@ public class DepratmentFindAllPagReponse {
     public void setTotalpage(int totalpage) {
         this.totalpage = totalpage;
     }
-
     public List<DepartmentReponse> getListresult() {
         return listresult;
     }
-
     public void setListresult(List<DepartmentReponse> listresult) {
         this.listresult = listresult;
     }
-
     public int getPage() {
         return page;
     }

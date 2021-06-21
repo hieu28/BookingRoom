@@ -4,16 +4,12 @@ import com.example.models.entities.*;
 import com.example.models.requests.BookingRequest;
 import com.example.models.responses.BookingReponse;
 import com.example.models.responses.MyBookingFindAll;
-import com.example.repositories.BookingDetailRepository;
-import com.example.repositories.BookingRepository;
-import com.example.repositories.EmployeeRepository;
-import com.example.repositories.RoomRepository;
+import com.example.repositories.*;
 import com.example.services.IBookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,28 +23,53 @@ public class BookingService implements IBookingService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private BookingDetailRepository bookingDetailRepository;
-
+    private EmployeeBookingRepository employeeBookingRepository;
     @Autowired
     private ModelMapper mapper;
 
     @Override
     @Transactional
-    public BookingDetailEntity save(BookingRequest bookingRequest) {
+    public String save(BookingRequest bookingRequest,long[] listide) {
         BookingEntity bookingEntity = new BookingEntity();
-//        List<BookingEntity> list = bookingRepository.findAllByIdE(bookingRequest.getEmployeeId());
-//        for (BookingEntity item: list){
-//           if (item.getCheckIn()>bookingRequest.getCheckIn()){
         bookingEntity = mapper.map(bookingRequest, BookingEntity.class);
+        List<BookingEntity> listbooking = bookingRepository.findAllByIdRoom(bookingEntity.getRoomId());
+        List<Long> Listt = new ArrayList<>();
+        for (BookingEntity itemr : listbooking) {
+            if (bookingEntity.getCheckIn().getTime()<(itemr.getCheckIn()).getTime()
+                    &&bookingEntity.getCheckOut().getTime()<itemr.getCheckIn().getTime()
+                    ||bookingEntity.getCheckIn().getTime()>(itemr.getCheckOut()).getTime()
+                    &&bookingEntity.getCheckOut().getTime()>itemr.getCheckOut().getTime()){
+                Listt.add(itemr.getId());
+                if(listbooking.size()==Listt.size()) {
+                    bookingEntity = bookingRepository.save(bookingEntity);
+                    List<EmployeeBookingEntity> liste = new ArrayList<>();
+                    for (long item : listide) {
+                        EmployeeBookingEntity empl = new EmployeeBookingEntity();
+                        empl.setEmployeeId(item);
+                        empl.setBookingId(bookingEntity.getId());
+                        empl = mapper.map(empl, EmployeeBookingEntity.class);
+                        liste.add(empl);
+                    }
+                    EmployeeBookingEntity emplad = new EmployeeBookingEntity();
+                    emplad.setEmployeeId(bookingEntity.getEmployeeId());
+                    emplad.setBookingId(bookingEntity.getId());
+                    liste.add(emplad);
+                    employeeBookingRepository.saveAll(liste);
+                }
+            }
+            else {
+                return "nhập ngày giờ trùng lặp";
+            }
+        }
+        return "thêm thành công";
+    }
+
+    @Override
+    public BookingReponse save(BookingReponse bkrq) {
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity = mapper.map(bkrq, BookingEntity.class);
         bookingEntity = bookingRepository.save(bookingEntity);
-        BookingDetailEntity empl = new BookingDetailEntity();
-        empl.setEmployeeId(bookingEntity.getEmployeeId());
-        empl.setBookingId(bookingEntity.getId());
-        empl = mapper.map(empl, BookingDetailEntity.class);
-        return  bookingDetailRepository.save(empl);
-
-
-
+        return mapper.map(bookingEntity, BookingReponse.class);
     }
 
     @Override
@@ -67,7 +88,6 @@ public class BookingService implements IBookingService {
     public BookingReponse getBookingById(Long id) {
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity = bookingRepository.findOneById(id);
-
         return mapper.map(bookingEntity, BookingReponse.class);
     }
 
@@ -111,36 +131,35 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<MyBookingFindAll> MyGetAllBooking(Long id) {
-      //  List<BookingDetailEntity> ebk = bookingDetailRepository.findAllByIdB(id);
-//        List<MyBookingFindAll> result = new ArrayList<>();
-//        for (BookingDetailEntity item : ebk) {
-//            MyBookingFindAll emplBk = mapper.map(item, MyBookingFindAll.class);
-//            result.add(emplBk);
-//        }
-//        List<BookingEntity> bke = bookingRepository.findAll();
-//        List<RoomEntity> re = roomRepository.findAll();
-//        List<EmployeeEntity> ee = employeeRepository.findAll();
-//        for (MyBookingFindAll myBookingFindAll : result) {
-//            for (BookingEntity item : bke) {
-//                for (EmployeeEntity itemra : ee) {
-//                    for (RoomEntity itemr : re) {
-//                        if (myBookingFindAll.getBookingId() == item.getId()
-//                                && item.getRoomId() == itemr.getId()
-//                                && item.getEmployeeId() == itemra.getId()) {
-//                            myBookingFindAll.setTitle(item.getTitle());
-//                            myBookingFindAll.setCheckIn(item.getCheckIn());
-//                            myBookingFindAll.setChechOut(item.getCheckOut());
-//                            myBookingFindAll.setNumberOfMember(item.getNumberOfMember());
-//                            myBookingFindAll.setNameRoom(itemr.getName());
-//                            myBookingFindAll.setDescription(item.getDescription());
-//                            myBookingFindAll.setRoomId(itemr.getId());
-//                            myBookingFindAll.setNameAdBooking(itemra.getName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        return null;
-
+        List<EmployeeBookingEntity> ebk = employeeBookingRepository.findAllByIdB(id);
+        List<MyBookingFindAll> result = new ArrayList<>();
+        for (EmployeeBookingEntity item : ebk) {
+            MyBookingFindAll emplBk = mapper.map(item, MyBookingFindAll.class);
+            result.add(emplBk);
+        }
+        List<BookingEntity> bke = bookingRepository.findAll();
+        List<RoomEntity> re = roomRepository.findAll();
+        List<EmployeeEntity> ee = employeeRepository.findAll();
+        for (MyBookingFindAll myBookingFindAll : result) {
+            for (BookingEntity item : bke) {
+                for (EmployeeEntity itemra : ee) {
+                    for (RoomEntity itemr : re) {
+                        if (myBookingFindAll.getBookingId() == item.getId()
+                                && item.getRoomId() == itemr.getId()
+                                && item.getEmployeeId() == itemra.getId()) {
+                            myBookingFindAll.setTitle(item.getTitle());
+                            myBookingFindAll.setCheckIn(item.getCheckIn());
+                            myBookingFindAll.setCheckOut(item.getCheckOut());
+                            myBookingFindAll.setNumberOfMember(item.getNumberOfMember());
+                            myBookingFindAll.setNameRoom(itemr.getName());
+                            myBookingFindAll.setDescription(item.getDescription());
+                            myBookingFindAll.setRoomId(itemr.getId());
+                            myBookingFindAll.setNameAdBooking(itemra.getName());
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
