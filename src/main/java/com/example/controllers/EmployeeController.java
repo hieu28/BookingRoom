@@ -28,11 +28,12 @@ public class EmployeeController {
 
     //Put out employee by id
     @GetMapping("/employee/{id}")
-    public EmployeeEntity getById(
+    public EmployeeResponse getById(
             @PathVariable("id") long id)
             throws RelationNotFoundException {
         return employeeService.findById(id);
     }
+
 
     //More employee
     @PostMapping("/employee")

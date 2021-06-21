@@ -11,17 +11,10 @@ import java.util.Optional;
 
 public interface IEmployeeService {
     EmployeeResponse save(EmployeeRequest employee);
-
-    Optional<EmployeeEntity> findByUsername(String email);
-
     boolean delete(Long id);
-
-    EmployeeEntity findById(Long id) throws RelationNotFoundException;
-
+    EmployeeResponse findById(Long id);
     List<EmployeeResponse> findAll();
-
     List<EmployeeResponse> findByEmail(String email);
-
     List<EmployeeResponse> findAllPaging(Pageable pageable);
 
     int totalItem();
