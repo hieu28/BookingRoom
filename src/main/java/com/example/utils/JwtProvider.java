@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtProvider {
-
-    @Value("${jwt.secret}")
+    @Value("${jwt.jwtSecret}")
     private String SECRET_KEY;
 
     @Autowired
@@ -60,12 +60,22 @@ public class JwtProvider {
                 .setExpiration(Date.from(expiration))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
+    // check username tu token voi username trong redis, check luon token da het han chua
+    public Boolean validateToken(String jwt) {
+        final String username = getUsernameFromToken(jwt);
+        return (username.equals(template.opsForValue().get(jwt)) && !isTokenExpired(jwt));
+    }
 
-    public Boolean validateToken(String token, String email) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(email) && !isTokenExpired(token));
+    public Boolean CheckToken(String authorizationHeader){
+        // kiem tra token
+        String jwt = authorizationHeader.substring(7);
+        String username = getUsernameFromToken(jwt);
+        if(jwt != null && username != null){
+            if(validateToken(jwt)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
-
-

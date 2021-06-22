@@ -24,7 +24,8 @@ public class LocationController {
         model.setId(id);
         return iLocationService.save(model);
     }
-//    @DeleteMapping(value = "/location")
+
+    //    @DeleteMapping(value = "/location")
 //    public void deleteLocation(@RequestBody long ids) {
 //        iLocationService.deleteLocation(ids);
 //    }
@@ -32,6 +33,7 @@ public class LocationController {
     public void deleteLocation(@PathVariable("id") long id) {
         iLocationService.deleteLocation(id);
     }
+
     @GetMapping(value = "/location/{id}")
 
     public LocationResponse getById(@PathVariable("id") long id) {
