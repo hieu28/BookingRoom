@@ -22,6 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         // check api to allow
         if (AllowApiInterceptor(request)) return true;
 
+
         // check if authorizeHeader invaild, throw a exception
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             // tra ve error invaild token
@@ -48,6 +49,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         return true;
+
     }
 
     private boolean AllowApiInterceptor(HttpServletRequest request) {
@@ -69,3 +71,4 @@ public class JwtInterceptor implements HandlerInterceptor {
     }
 
 }
+
