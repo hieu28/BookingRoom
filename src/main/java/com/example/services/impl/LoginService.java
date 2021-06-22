@@ -1,4 +1,4 @@
-package com.example.services.loginservice;
+package com.example.services.impl;
 
 import com.example.exceptions.PasswordNotFoundException;
 import com.example.exceptions.UsernameNotFound;

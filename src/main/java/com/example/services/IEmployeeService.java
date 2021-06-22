@@ -11,13 +11,19 @@ import java.util.Optional;
 
 public interface IEmployeeService {
     EmployeeResponse save(EmployeeRequest employee);
+
     boolean delete(Long id);
+
     EmployeeResponse findById(Long id);
+
     List<EmployeeResponse> findAll();
+
     List<EmployeeResponse> findByEmail(String email);
+
     List<EmployeeResponse> findAllPaging(Pageable pageable);
 
     int totalItem();
+
     void deleteList(long[] ids);
 
 }

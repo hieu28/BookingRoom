@@ -8,19 +8,28 @@ import com.example.services.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RelationNotFoundException;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
 @RequestMapping
+@Validated
 public class EmployeeController {
 
     @Autowired
     IEmployeeService employeeService;
 
     //Put out employee
+
+    /**
+     * Put out employee
+     *
+     * @return
+     */
     @GetMapping("/employee")
     public List<EmployeeResponse> getAllEmployee() {
         return employeeService.findAll();
@@ -37,8 +46,7 @@ public class EmployeeController {
 
     //More employee
     @PostMapping("/employee")
-    public EmployeeResponse createEmployee(
-            @RequestBody EmployeeRequest employee) {
+    public EmployeeResponse createEmployee(@RequestBody EmployeeRequest employee) {
         return employeeService.save(employee);
     }
 
@@ -75,9 +83,8 @@ public class EmployeeController {
 
     //Paging
     @GetMapping("/employee/{page}/{limit}")
-    public EmployeeFageResponse ShowPaging(
-            @PathVariable("page") int page,
-            @PathVariable("limit") int limit) {
+    public EmployeeFageResponse ShowPaging(@Min(1) @PathVariable("page") int page,
+                                           @Min(1) @PathVariable(name = "limit") int limit) {
         EmployeeFageResponse result = new EmployeeFageResponse();
         result.setPage(page);
         Pageable pageable = PageRequest.of(page - 1, limit);

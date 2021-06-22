@@ -25,6 +25,8 @@ public class DepartmentService implements IDepartmentService {
     }
     @Override
     public void deleteList(long[] ids) {
+        // validate id có tồn tại hay không
+
         for(long item: ids) {
             departmentRepository.deleteById(item);
         }

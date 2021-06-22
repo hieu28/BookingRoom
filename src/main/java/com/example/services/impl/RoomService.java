@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService implements IRoomService {
@@ -27,21 +29,23 @@ public class RoomService implements IRoomService {
     public List<RoomResponse> findAll() {
         List<RoomEntity> room = roomRepository.findAll();
         List<RoomResponse> result = new ArrayList<>();
-        for (RoomEntity item : room) {
-            RoomResponse roomDTO = mapper.map(item, RoomResponse.class);
-            result.add(roomDTO);
-        }
+        room.stream().forEach(
+                e -> {
+                    RoomResponse roomDTO = mapper.map(e, RoomResponse.class);
+                    result.add(roomDTO);
+                }
+        );
         List<LocationEntity> location = locationRepository.findAll();
-        for (RoomResponse roomResponse : result){
-            for (LocationEntity item : location){
-                if (roomResponse.getLocationId()==item.getId()){
+        for (RoomResponse roomResponse : result) {
+            for (LocationEntity item : location) {
+                if (roomResponse.getLocationId() == item.getId()) {
                     roomResponse.setLocationName(item.getName());
                 }
             }
         }
         return result;
-
     }
+
 
     @Override
     @Transactional
@@ -80,9 +84,9 @@ public class RoomService implements IRoomService {
             result.add(roomDTO);
         }
         List<LocationEntity> location = locationRepository.findAll();
-        for (RoomResponse roomResponse : result){
-            for (LocationEntity item : location){
-                if (roomResponse.getLocationId()==item.getId()){
+        for (RoomResponse roomResponse : result) {
+            for (LocationEntity item : location) {
+                if (roomResponse.getLocationId().equals(item.getId()) ) {
                     roomResponse.setLocationName(item.getName());
                 }
             }

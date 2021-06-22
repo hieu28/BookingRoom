@@ -43,7 +43,8 @@ public class DepartmentController {
         return iDepartmentService.getDeparmentById(id);
     }
     @GetMapping(value = "/department")
-    public DepratmentFindAllPagReponse ShowDepartmentPaging(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+    public DepratmentFindAllPagReponse ShowDepartmentPaging(@RequestParam("page") int page,
+                                                            @RequestParam("limit") int limit) {
         DepratmentFindAllPagReponse result = new DepratmentFindAllPagReponse();
         result.setPage(page);
         Pageable pageable = PageRequest.of(page-1,limit);

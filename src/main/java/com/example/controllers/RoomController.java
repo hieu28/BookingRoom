@@ -1,14 +1,13 @@
 package com.example.controllers;
 
-import com.example.models.entities.RoomEntity;
 import com.example.models.requests.RoomRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@CrossOrigin
 @RestController
 public class RoomController {
     @Autowired
@@ -24,7 +23,7 @@ public class RoomController {
         return roomService.findById(id);
     }
 
-    @GetMapping(value = "/room/list/{id}")
+    @GetMapping(value = "/room/location/{id}")
     public List<RoomResponse> getByLocation(@PathVariable("id") long id){
         return  roomService.findByLocation(id);
     }

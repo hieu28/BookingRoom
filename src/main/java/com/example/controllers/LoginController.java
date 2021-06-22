@@ -3,7 +3,7 @@ package com.example.controllers;
 import com.example.models.entities.EmployeeEntity;
 import com.example.models.requests.JwtRequest;
 import com.example.models.responses.JwtResponse;
-import com.example.services.loginservice.LoginService;
+import com.example.services.impl.LoginService;
 import com.example.utils.JwtProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class LoginController {
         EmployeeEntity employee = loginService.checkUser(username, password);
         String jwt = "";
         if (employee != null) {
-            jwt += jwtProvider.generateToken(username);
+            jwt = jwtProvider.generateToken(username);
 
         }
         return new ResponseEntity<>(new JwtResponse(jwt, username), HttpStatus.OK);

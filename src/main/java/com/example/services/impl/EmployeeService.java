@@ -84,7 +84,7 @@ public class EmployeeService implements IEmployeeService {
             }
             return eo;
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
             return null;
         }
 
