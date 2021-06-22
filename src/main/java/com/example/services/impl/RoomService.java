@@ -26,7 +26,7 @@ public class RoomService implements IRoomService {
     private LocationRepository locationRepository;
 
     @Override
-    public List<RoomResponse> findAll() {
+    public List<RoomResponse> getAll() {
         List<RoomEntity> room = roomRepository.findAll();
         List<RoomResponse> result = new ArrayList<>();
         room.stream().forEach(
@@ -49,7 +49,7 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
-    public RoomResponse save(RoomRequest room) {
+    public RoomResponse create(RoomRequest room) {
         RoomEntity roomEntity = new RoomEntity();
         roomEntity = mapper.map(room, RoomEntity.class);
         roomEntity = roomRepository.save(roomEntity);
@@ -58,25 +58,19 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
-    public boolean delete(long ids) {
-        try {
-            roomRepository.deleteById(ids);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+    public void delete(Long[] ids) {
+        roomRepository.delete(ids);
 
     }
 
     @Override
-    public RoomResponse findById(long id) {
+    public RoomResponse getById(long id) {
         Optional<RoomEntity> room = roomRepository.findById(id);
         return mapper.map(room.get(), RoomResponse.class);
     }
 
     @Override
-    public List<RoomResponse> findByLocation(long id) {
+    public List<RoomResponse> getByLocation(long id) {
         Optional<List<RoomEntity>> room = roomRepository.findByLocationId(id);
         List<RoomResponse> result = new ArrayList<>();
         for (RoomEntity item : room.get()) {
@@ -86,7 +80,7 @@ public class RoomService implements IRoomService {
         List<LocationEntity> location = locationRepository.findAll();
         for (RoomResponse roomResponse : result) {
             for (LocationEntity item : location) {
-                if (roomResponse.getLocationId().equals(item.getId()) ) {
+                if (roomResponse.getLocationId().equals(item.getId())) {
                     roomResponse.setLocationName(item.getName());
                 }
             }

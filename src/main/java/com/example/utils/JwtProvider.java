@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Component
 public class JwtProvider {
 
-    @Value("${jwt.jwtSecret}")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     @Autowired

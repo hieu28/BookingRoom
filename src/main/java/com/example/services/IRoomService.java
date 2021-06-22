@@ -6,13 +6,14 @@ import com.example.models.responses.RoomResponse;
 import java.util.List;
 
 public interface IRoomService {
-    public List<RoomResponse> findAll();
 
-    public RoomResponse save(RoomRequest room);
+     List<RoomResponse> getAll();
 
-    public boolean delete(long id);
+     RoomResponse create(RoomRequest room);
 
-    public RoomResponse findById(long id);
+     void delete(Long[] id);
 
-    public List<RoomResponse> findByLocation(long id);
+     RoomResponse getById(long id);
+
+     List<RoomResponse> getByLocation(long id);
 }

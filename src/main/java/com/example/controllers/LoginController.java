@@ -7,6 +7,7 @@ import com.example.services.impl.LoginService;
 import com.example.utils.JwtProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,11 @@ public class LoginController {
     public LoginController(LoginService loginService, JwtProvider jwtProvider) {
         this.loginService = loginService;
         this.jwtProvider = jwtProvider;
+    }
+
+    @GetMapping({"/hello"})
+    public String index(){
+        return "Hello";
     }
 
 

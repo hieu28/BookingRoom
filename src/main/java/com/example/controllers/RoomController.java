@@ -4,44 +4,46 @@ import com.example.models.requests.RoomRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/room")
 public class RoomController {
+
     @Autowired
     private IRoomService roomService;
 
-    @GetMapping(value = "/room")
+    @GetMapping
     public List<RoomResponse> getAll(){
-        return roomService.findAll();
+        return roomService.getAll();
     }
 
-    @GetMapping(value = "/room/{id}")
+    @GetMapping(value = "/{id}")
     public RoomResponse getById(@PathVariable("id") long id){
-        return roomService.findById(id);
+        return roomService.getById(id);
     }
 
-    @GetMapping(value = "/room/location/{id}")
+    @GetMapping(value = "/location/{id}")
     public List<RoomResponse> getByLocation(@PathVariable("id") long id){
-        return  roomService.findByLocation(id);
+        return  roomService.getByLocation(id);
     }
 
-
-    @PostMapping(value = "/room")
-    public RoomResponse createRoom(@RequestBody RoomRequest room) {
-        RoomResponse rooms = roomService.save(room);
-        return rooms;
+    @PostMapping
+    public RoomResponse create(@RequestBody RoomRequest roomRequest) {
+        return roomService.create(roomRequest);
     }
 
-    @PutMapping(value = "/room/{id}")
-    public RoomResponse updateNew(@RequestBody RoomRequest model, @PathVariable("id") long id) {
-        model.setId(id);
-        return roomService.save(model);
+    @PutMapping(value = "/{id}")
+    public RoomResponse update(@PathVariable("id") long id,@RequestBody RoomRequest roomRequest) {
+        roomRequest.setId(id);
+        return roomService.create(roomRequest);
     }
-    @DeleteMapping(value = "/room/{id}")
-    public void deleteNew(@PathVariable("id") long ids) {
+    @DeleteMapping
+    public void delete(@RequestBody Long[] ids) {
         roomService.delete(ids);
     }
 }
