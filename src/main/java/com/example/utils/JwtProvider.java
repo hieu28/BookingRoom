@@ -1,8 +1,8 @@
 package com.example.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.exceptions.JwtNotFound;
+import com.example.exceptions.JwtSingnatureException;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -18,13 +18,13 @@ import java.util.function.Function;
 
 @Component
 public class JwtProvider {
-    @Value("${jwt.jwtSecret}")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     @Autowired
     private RedisTemplate<Object, Object> template;
 
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -48,34 +48,39 @@ public class JwtProvider {
     public String generateToken(String email) {
 
         Map<String, Object> claims = new HashMap<>();
-        String jwt = doGenerateToken(claims, email);
-        template.opsForValue().set(jwt, email);
-        return jwt;
+        String token = doGenerateToken(claims, email);
+        template.opsForValue().set(token, email);
+
+        return token;
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         Instant issuaAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuaAt.plus(3, ChronoUnit.HOURS);
+
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date.from(issuaAt))
                 .setExpiration(Date.from(expiration))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
-    // check username tu token voi username trong redis, check luon token da het han chua
-    public Boolean validateToken(String jwt) {
-        final String username = getUsernameFromToken(jwt);
-        return (username.equals(template.opsForValue().get(jwt)) && !isTokenExpired(jwt));
+
+    public Boolean validateToken(String token, String email) {
+
+            return (email.equals(template.opsForValue().get(token)) && !isTokenExpired(token));
+
     }
 
-    public Boolean CheckToken(String authorizationHeader){
-        // kiem tra token
-        String jwt = authorizationHeader.substring(7);
-        String username = getUsernameFromToken(jwt);
-        if(jwt != null && username != null){
-            if(validateToken(jwt)){
-                return true;
-            }
+    public Boolean CheckToken(String authorizationHeader) {
+        try {
+            String token = authorizationHeader.substring(7);
+
+            String email = getAllClaimsFromToken(token).getSubject();
+            return validateToken(token, email);
+        }catch (SignatureException e){
+            throw new JwtSingnatureException();
+        }catch (MalformedJwtException e) {
+            throw new JwtNotFound();
         }
-        return false;
+
     }
 
 }
