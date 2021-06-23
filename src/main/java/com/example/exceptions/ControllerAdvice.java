@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ControllerAdvice {
+
     @ExceptionHandler(value = UsernameNotFound.class)
     public ResponseEntity<Object> exception(UsernameNotFound exception) {
         return new ResponseEntity<>("Username not found", HttpStatus.BAD_REQUEST);
