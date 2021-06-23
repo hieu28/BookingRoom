@@ -16,4 +16,14 @@ public class ControllerAdvice {
     public ResponseEntity<Object> exception(PasswordNotFoundException exception) {
         return new ResponseEntity<>("Password not found", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = JwtNotFound.class)
+    public ResponseEntity<Object> exception(JwtNotFound exception) {
+        return new ResponseEntity<>(" JWT not found ,Unauthorize", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = JwtSingnatureException.class)
+    public ResponseEntity<Object> exception(JwtSingnatureException exception) {
+        return new ResponseEntity<>("Invalid JWT signature", HttpStatus.UNAUTHORIZED);
+    }
 }

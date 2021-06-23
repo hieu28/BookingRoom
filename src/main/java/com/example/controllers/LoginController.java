@@ -31,15 +31,15 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception {
-        String username = jwtRequest.getUsername();
-        String password = jwtRequest.getPassword();
-        EmployeeEntity employee = loginService.checkUser(username, password);
-        String jwt = "";
+//        String username = jwtRequest.getUsername();
+//        String password = jwtRequest.getPassword();
+        EmployeeEntity employee = loginService.checkUser(jwtRequest.getUsername(), jwtRequest.getPassword());
+        String token = "";
         if (employee != null) {
-            jwt = jwtProvider.generateToken(username);
+            token = jwtProvider.generateToken(jwtRequest.getUsername());
 
         }
-        return new ResponseEntity<>(new JwtResponse(jwt, username), HttpStatus.OK);
+        return new ResponseEntity<>(new JwtResponse(token, jwtRequest.getUsername()), HttpStatus.OK);
     }
 }
 

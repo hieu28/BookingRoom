@@ -75,18 +75,18 @@ public class BookingController {
 
     @PostMapping(value = "/booking")
     public String createBooking(@RequestBody BookingRequest booking,HttpServletRequest request) {
-         try {
-             List<Long> listEmpl = (List<Long>) request.getSession().getAttribute("employee");
-             BookingReponse bookingReponse = mapper.map(iBookingService.save(booking),BookingReponse.class) ;
-             for (Long employee : listEmpl){
-                 EmployeeResponse e = new EmployeeResponse();
-                 e = employeeService.findById(employee);
-                 bookingDetailService.save(new BookingDetailRequest(bookingReponse.getId(),e.getId(),e.getName(),e.getImage()));
-             }
-         }catch (Exception e){
-             e.getMessage();
-         }
-         return "Thanh cong";
+        try {
+            List<Long> listEmpl = (List<Long>) request.getSession().getAttribute("employee");
+            BookingReponse bookingReponse = mapper.map(iBookingService.save(booking),BookingReponse.class) ;
+            for (Long employee : listEmpl){
+                EmployeeResponse e = new EmployeeResponse();
+                e = employeeService.findById(employee);
+                bookingDetailService.save(new BookingDetailRequest(bookingReponse.getId(),e.getId(),e.getName(),e.getImage()));
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
+        return "Thanh cong";
 
     }
     @DeleteMapping(value = "/booking")
