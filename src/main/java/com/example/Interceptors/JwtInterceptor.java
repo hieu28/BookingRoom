@@ -1,6 +1,5 @@
 package com.example.Interceptors;
 import com.example.utils.JwtProvider;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,7 +10,8 @@ import java.util.regex.Pattern;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
-    private JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
+
     @Autowired
     public JwtInterceptor(JwtProvider jwtProvider){
         this.jwtProvider = jwtProvider;
@@ -39,16 +39,12 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if (authorizationHeader.startsWith("Bearer ")) {
 
-            if (jwtProvider.CheckToken(authorizationHeader)) {
-                return true;
-            }
-
-            response.getWriter().write(" Unauthorize");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.setStatus(401);
-
-            return false;
+            return jwtProvider.CheckToken(authorizationHeader);
+//
+//            response.getWriter().write(" Unauthorize");
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+//            response.setStatus(401);
         }
 
         return true;

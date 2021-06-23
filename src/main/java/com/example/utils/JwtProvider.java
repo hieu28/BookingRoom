@@ -2,6 +2,8 @@ package com.example.utils;
 
 import com.example.exceptions.JwtNotFound;
 import com.example.exceptions.JwtSingnatureException;
+import com.example.models.responses.EmployeeResponse;
+import com.example.services.impl.EmployeeService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -23,6 +26,8 @@ public class JwtProvider {
 
     @Autowired
     private RedisTemplate<Object, Object> template;
+    @Autowired
+    private EmployeeService employeeService;
 
     public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -54,12 +59,16 @@ public class JwtProvider {
         return token;
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, String email) {
         Instant issuaAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuaAt.plus(3, ChronoUnit.HOURS);
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date.from(issuaAt))
-                .setExpiration(Date.from(expiration))
+        List<EmployeeResponse> employee = employeeService.findByEmail(email);
+        long userid = employee.get(0).getId();
+
+
+        return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(Date.from(issuaAt))
+                .setExpiration(Date.from(expiration)).claim("user-id", userid)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
