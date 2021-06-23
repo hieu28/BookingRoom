@@ -4,7 +4,7 @@ import com.example.exceptions.PasswordNotFoundException;
 import com.example.exceptions.UsernameNotFound;
 import com.example.models.entities.EmployeeEntity;
 import com.example.repositories.EmployeeRepository;
-import com.example.services.impl.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +14,7 @@ public class LoginService {
     private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
 
+    @Autowired
     public LoginService(EmployeeService employeeService, EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeService = employeeService;
