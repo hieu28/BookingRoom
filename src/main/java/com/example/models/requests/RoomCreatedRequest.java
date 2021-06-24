@@ -1,12 +1,35 @@
 package com.example.models.requests;
 
-public class RoomRequest {
-    private Long id;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+public class RoomCreatedRequest {
+
+    @NotNull(message = "Room name is required")
+    @NotEmpty(message = "Room name is required")
+    @ApiModelProperty(
+            example="Phòng tầng 8",
+            notes="Full name cannot be empty",
+            required=true
+    )
     private String name;
-    private int locationId;
+
+    @NotNull(message = "LocationId is required")
+    @NotEmpty(message = "LocationId is required")
+    private Long locationId;
+
+    @NotNull(message = "Capacity is required")
+    @NotEmpty(message = "Capacity is required")
     private int capacity;
+
+    @NotNull(message = "LocationId is required")
+    @NotEmpty(message = "LocationId is required")
     private String description;
+
     private String image;
+
     private boolean status;
 
     public String getName() {
@@ -17,11 +40,11 @@ public class RoomRequest {
         this.name = name;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 
@@ -55,13 +78,5 @@ public class RoomRequest {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

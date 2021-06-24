@@ -41,7 +41,7 @@ public class BookingController {
     private ModelMapper mapper;
 
     @PostMapping(value = "/booking/employee")
-    public String addEmployee(@RequestBody Long[] ide, HttpServletRequest request) {
+    public List<Long> addEmployee(@RequestBody Long[] ide, HttpServletRequest request) {
         List<Long> listEmpl = (List<Long>) request.getSession().getAttribute("employee");
         for (Long id : ide){
             if (listEmpl==null){
@@ -52,7 +52,7 @@ public class BookingController {
             }
         }
         request.getSession().setAttribute("employee",listEmpl);
-        return "Them thanh cong";
+        return listEmpl;
 
     }
 
