@@ -13,9 +13,9 @@ public class BookingRoomApplication {
     public static void main(String[] args) {
         SpringApplication.run(BookingRoomApplication.class, args);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
+        return new BCryptPasswordEncoder();
     }
 }

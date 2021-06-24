@@ -10,8 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.management.relation.RelationNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +31,17 @@ public class EmployeeService implements IEmployeeService {
     @Override
     @Transactional
     public EmployeeResponse save(EmployeeRequest employee) {
+
         EmployeeEntity employeeEntity = modelMapper.map(employee, EmployeeEntity.class);
         employeeEntity = employeeRepository.save(employeeEntity);
+
         return modelMapper.map(employeeEntity, EmployeeResponse.class);
     }
 
     @Override
     @Transactional
     public boolean delete(Long id) {
+
         try {
             employeeRepository.deleteById(id);
             return true;
@@ -53,13 +54,15 @@ public class EmployeeService implements IEmployeeService {
     @Override
     @Transactional
     public EmployeeResponse findById(Long id) {
-         Optional<EmployeeEntity> room = employeeRepository.findById(id);
+
+        Optional<EmployeeEntity> room = employeeRepository.findById(id);
         return modelMapper.map(room.get(), EmployeeResponse.class);
     }
 
     @Override
     @Transactional
     public List<EmployeeResponse> findAll() {
+
         List<EmployeeResponse> r = new ArrayList<>();
         List<EmployeeEntity> entities = employeeRepository.findAll();
         for (EmployeeEntity item : entities) {
@@ -72,6 +75,7 @@ public class EmployeeService implements IEmployeeService {
     @Override
     @Transactional
     public List<EmployeeResponse> findByEmail(String email) {
+
         try {
             List<EmployeeEntity> epl = employeeRepository.search(email);
             List<EmployeeResponse> eo = new ArrayList<>();
@@ -84,12 +88,12 @@ public class EmployeeService implements IEmployeeService {
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override
     @Transactional
     public List<EmployeeResponse> findAllPaging(Pageable pageable) {
+
         List<EmployeeResponse> results = new ArrayList<>();
         List<EmployeeEntity> employeeEntity = employeeRepository.findAll(pageable).getContent();
         for (EmployeeEntity item : employeeEntity) {
@@ -106,6 +110,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void deleteList(long[] ids) {
+
         for (long item : ids) {
             employeeRepository.deleteById(item);
         }
