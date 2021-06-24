@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,10 @@ public class BookingService implements IBookingService {
             bookingEntity = bookingRepository.save(bookingEntity);
         } else {
             for (BookingEntity itemr : listbooking) {
-                if (bookingEntity.getCheckIn().getTime() < (itemr.getCheckIn()).getTime()
-                        && bookingEntity.getCheckOut().getTime() < itemr.getCheckIn().getTime()
-                        || bookingEntity.getCheckIn().getTime() > (itemr.getCheckOut()).getTime()
-                        && bookingEntity.getCheckOut().getTime() > itemr.getCheckOut().getTime()) {
+                if (bookingEntity.getCheckIn().getHour() < (itemr.getCheckIn()).getHour()
+                        && bookingEntity.getCheckOut().getHour() < itemr.getCheckIn().getHour()
+                        || bookingEntity.getCheckIn().getHour() > (itemr.getCheckOut()).getHour()
+                        && bookingEntity.getCheckOut().getHour() > itemr.getCheckOut().getHour()) {
                     listt.add(itemr.getId());
                     if (listbooking.size() == listt.size()) {
                         bookingEntity = bookingRepository.save(bookingEntity);
@@ -145,5 +146,33 @@ public class BookingService implements IBookingService {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<BookingReponse> getBookingByRoomDay(Long id) {
+        List<BookingReponse> results = new ArrayList<>();
+        List<BookingEntity> bookingEntities = bookingRepository.findAllByIdRoom(id);
+
+        for (BookingEntity item : bookingEntities) {
+            if(item.getCheckIn().getDayOfMonth()==java.time.OffsetDateTime.now().getDayOfMonth()){
+            BookingReponse bookingReponse = mapper.map(item, BookingReponse.class);
+            results.add(bookingReponse);
+            }
+        }
+        return results;
+    }
+
+    @Override
+    public List<BookingReponse> getBookingByRoomByDay(Long id,int day) {
+        List<BookingReponse> results = new ArrayList<>();
+        List<BookingEntity> bookingEntities = bookingRepository.findAllByIdRoom(id);
+
+        for (BookingEntity item : bookingEntities) {
+            if (item.getCheckIn().getDayOfMonth() == day) {
+                BookingReponse bookingReponse = mapper.map(item, BookingReponse.class);
+                results.add(bookingReponse);
+            }
+        }
+        return results;
     }
 }
