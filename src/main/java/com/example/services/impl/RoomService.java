@@ -58,8 +58,8 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
-    public void delete(Long[] ids) {
-        roomRepository.delete(ids);
+    public void delete(List<Long> ids) {
+        roomRepository.deleteAllByIdIn(ids);
 
     }
 

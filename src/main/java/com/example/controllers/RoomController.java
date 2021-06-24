@@ -18,18 +18,18 @@ public class RoomController {
     private IRoomService roomService;
 
     @GetMapping
-    public List<RoomResponse> getAll(){
+    public List<RoomResponse> getAll() {
         return roomService.getAll();
     }
 
     @GetMapping(value = "/{id}")
-    public RoomResponse getById(@PathVariable("id") long id){
+    public RoomResponse getById(@PathVariable("id") long id) {
         return roomService.getById(id);
     }
 
     @GetMapping(value = "/location/{id}")
-    public List<RoomResponse> getByLocation(@PathVariable("id") long id){
-        return  roomService.getByLocation(id);
+    public List<RoomResponse> getByLocation(@PathVariable("id") long id) {
+        return roomService.getByLocation(id);
     }
 
     @PostMapping
@@ -38,12 +38,13 @@ public class RoomController {
     }
 
     @PutMapping(value = "/{id}")
-    public RoomResponse update(@PathVariable("id") long id,@RequestBody RoomRequest roomRequest) {
+    public RoomResponse update(@PathVariable("id") long id, @RequestBody RoomRequest roomRequest) {
         roomRequest.setId(id);
         return roomService.create(roomRequest);
     }
+
     @DeleteMapping
-    public void delete(@RequestBody Long[] ids) {
+    public void delete(@RequestBody List<Long> ids) {
         roomService.delete(ids);
     }
 }

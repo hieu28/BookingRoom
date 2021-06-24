@@ -11,7 +11,7 @@ public interface IRoomService {
 
      RoomResponse create(RoomRequest room);
 
-     void delete(Long[] id);
+     void delete(List<Long> id);
 
      RoomResponse getById(long id);
 
