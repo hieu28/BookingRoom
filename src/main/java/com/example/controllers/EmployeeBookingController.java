@@ -27,11 +27,6 @@ public class EmployeeBookingController {
         return employeeBookingService.findById(id);
     }
 
-//    @GetMapping("/employeeBooking/list/{name}")
-//    public List<EmployeeBookingResponse> search(@PathVariable("name") String name){
-//
-//        return employeeBookingService.findByEmployee(name);
-//    }
 
     @PostMapping("/employeeBooking")
     public EmployeeBookingResponse createEmployeeBooking(@RequestBody EmployeeBookingRequest entity){

@@ -1,19 +1,31 @@
 package com.example.models.responses;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 public class MyBookingFindAll {
+
     private Long Id;
-    private Date checkIn;
-    private Date checkOut;
+
+    private OffsetDateTime checkIn;
+
+    private OffsetDateTime checkOut;
+
     private Long numberOfMember;
+
     private String title;
+
     private String employeeName;
+
     private String nameRoom;
+
     private Long roomId;
+
     private Long bookingId;
+
     private Long employeeId;
+
     private String description;
 
     public String getEmployeeName() {
@@ -36,19 +48,19 @@ public class MyBookingFindAll {
         Id = id;
     }
 
-    public Date getCheckIn() {
+    public OffsetDateTime getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(Date checkIn) {
+    public void setCheckIn(OffsetDateTime checkIn) {
         this.checkIn = checkIn;
     }
 
-    public Date getCheckOut() {
+    public OffsetDateTime getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(Date checkOut) {
+    public void setCheckOut(OffsetDateTime checkOut) {
         this.checkOut = checkOut;
     }
 

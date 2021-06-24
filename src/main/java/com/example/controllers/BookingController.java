@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class BookingController {
+
     @Autowired
     private IBookingService iBookingService;
 
@@ -124,4 +126,12 @@ public class BookingController {
     public List<MyBookingFindAll> ShowMyBooking(@PathVariable("id") long id) {
         return iBookingService.MyGetAllBooking(id);
     }
+
+
+    @GetMapping(value = "/bookingByIdRoomToday/{id}")
+    public List<BookingReponse> getByIdRoomDay(@PathVariable("id") long id) {
+        return iBookingService.getBookingByRoomDay(id);
+    }
+
+
 }

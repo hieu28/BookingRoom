@@ -1,7 +1,6 @@
 package com.example.utils;
 
 import com.example.exceptions.JwtNotFound;
-import com.example.exceptions.JwtSingnature;
 import com.example.models.responses.EmployeeResponse;
 import com.example.services.impl.EmployeeService;
 import io.jsonwebtoken.*;
@@ -20,6 +19,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtProvider {
+
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
