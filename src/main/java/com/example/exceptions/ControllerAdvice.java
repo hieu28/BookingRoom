@@ -13,8 +13,8 @@ public class ControllerAdvice {
         return new ResponseEntity<>("Username not found", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = PasswordNotFoundException.class)
-    public ResponseEntity<Object> exception(PasswordNotFoundException exception) {
+    @ExceptionHandler(value = PasswordNotFound.class)
+    public ResponseEntity<Object> exception(PasswordNotFound exception) {
         return new ResponseEntity<>("Password not found", HttpStatus.BAD_REQUEST);
     }
 
@@ -23,8 +23,8 @@ public class ControllerAdvice {
         return new ResponseEntity<>(" JWT not found ,Unauthorize", HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(value = JwtSingnatureException.class)
-    public ResponseEntity<Object> exception(JwtSingnatureException exception) {
-        return new ResponseEntity<>("Invalid JWT signature", HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(value = JwtSingnature.class)
+    public ResponseEntity<Object> exception(JwtSingnature exception) {
+        return new ResponseEntity<>("Invalid JWT signature, Unauthorize", HttpStatus.UNAUTHORIZED);
     }
 }
