@@ -31,7 +31,6 @@ public class LoginController {
         String token = "";
         if (employee != null) {
             token = jwtProvider.generateToken(jwtRequest.getUsername());
-
         }
         return new ResponseEntity<>(new JwtResponse(token, jwtRequest.getUsername()), HttpStatus.OK);
     }
