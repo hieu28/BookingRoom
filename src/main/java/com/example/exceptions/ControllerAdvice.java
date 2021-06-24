@@ -28,7 +28,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(value = JwtNotFound.class)
     public ResponseEntity<Object> exception(JwtNotFound exception) {
-        return new ResponseEntity<>(" JWT not found ,Unauthorize", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(" Authorization Required ", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = JwtSingnature.class)

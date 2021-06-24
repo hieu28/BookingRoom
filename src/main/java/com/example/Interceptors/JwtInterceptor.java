@@ -13,8 +13,8 @@ public class JwtInterceptor implements HandlerInterceptor {
     private static final String[] AllowApi = {"^/login$", "^/login?error", "^/error",
             "^/v2/api-docs$", "^/configuration/ui$", "^/swagger-resources$","^/swagger-resources/\\**$",
             "^/swagger-ui.html$", "^/webjars/\\**$","^/swagger-resources/configuration/ui$","^/swagger-ui.html$"};
-    private final JwtProvider jwtProvider;
 
+    private final JwtProvider jwtProvider;
     @Autowired
     public JwtInterceptor(JwtProvider jwtProvider){
         this.jwtProvider = jwtProvider;
@@ -22,7 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
         String authorizationHeader = request.getHeader("Authorization");
 
