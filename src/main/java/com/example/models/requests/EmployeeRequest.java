@@ -1,10 +1,10 @@
 package com.example.models.requests;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class EmployeeRequest {
@@ -12,31 +12,32 @@ public class EmployeeRequest {
     private long id;
 
     @NotBlank
+    @Size(max = 60, min = 5, message = "Name must be at least 2 characters and maximum 50 characters")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Please enter the phone number")
+    @Size(max = 11, min = 10, message = "Phone must be at least 10 characters and maximum 11 characters")
+    @Pattern(regexp = "[0-9]")
     private String phone;
 
+    @NotBlank(message = "Please enter email")
+    @Size(max = 60, message = "Email maximum 60 characters")
     private String email;
 
-
+    @NotBlank(message = "PLease enter password")
     private String password;
+
+    @NotBlank
     private long departmentId;
 
     @URL
+    @NotBlank(message = "PLease enter image")
     private String image;
 
     @Size
-    @Length
+    @NotBlank(message = "PLease enter role")
     private String role;
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;
@@ -96,5 +97,13 @@ public class EmployeeRequest {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
