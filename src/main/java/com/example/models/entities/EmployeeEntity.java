@@ -1,45 +1,57 @@
 package com.example.models.entities;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employee")
 public class EmployeeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "{employee.name}")
-    @Size(max = 50,min = 5,message = "{employee.name.length}")
+    @NotNull
+    @Size(max = 50, min = 2, message = "Name must be at least 2 characters and maximum 50 characterss")
+
     private String name;
 
-    @NotEmpty(message = "Please enter the phone number !")
-    @Pattern(regexp = "@[a-z0-9_]")
+    @NotNull(message = "Please enter the phone number")
     @Column(name = "phone")
     private String phone;
 
-    @NotEmpty(message = "Please enter email")
-    @Pattern(regexp = "[a-z0-9_]+@[a-z0-9_]+",message = "Wrong format xxx@ttc-solution.com.vn")
     @Column(name = "email")
+    @NotNull(message = "Please enter email")
     private String email;
 
-
     @Column(name = "password")
-    @NotEmpty(message = "PLease enter password")
-    @Pattern(regexp = "@[a-z0-9_]")
+    @NotNull(message = "PLease enter password")
     private String password;
 
     @Column(name = "department_id")
     private long departmentId;
 
     @Column(name = "image")
+    @NotNull(message = "PLease enter image")
     private String image;
+
+    @Column(name = "role")
+    @NotNull(message = "PLease enter role")
+    private String role;
+
+
+
+    public EmployeeEntity() {
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
     public long getId() {
         return id;

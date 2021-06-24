@@ -1,6 +1,11 @@
 package com.example.models.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -10,14 +15,15 @@ public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+
     @Column(name = "check_in")
-    private Date checkIn;
+    private OffsetDateTime checkIn;
 
     @Column(name = "check_out")
-    private Date chechOut;
+    private OffsetDateTime checkOut;
 
+    @Min(value = 1, message = "Số lượng người tối thiểu là 1")
+    @Max(value = 50, message = "Sức lượng người tối đa là 50")
     @Column(name = "number_of_member")
     private Long numberOfMember;
 
@@ -27,13 +33,8 @@ public class BookingEntity {
     @Column(name = "room_id")
     private Long roomId;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "title")
     private String title;
@@ -46,20 +47,20 @@ public class BookingEntity {
         this.id = id;
     }
 
-    public Date getCheckIn() {
+    public OffsetDateTime getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(Date checkIn) {
+    public void setCheckIn(OffsetDateTime checkIn) {
         this.checkIn = checkIn;
     }
 
-    public Date getChechOut() {
-        return chechOut;
+    public OffsetDateTime getCheckOut() {
+        return checkOut;
     }
 
-    public void setChechOut(Date chechOut) {
-        this.chechOut = chechOut;
+    public void setCheckOut(OffsetDateTime checkOut) {
+        this.checkOut = checkOut;
     }
 
     public Long getNumberOfMember() {
@@ -84,5 +85,21 @@ public class BookingEntity {
 
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -1,11 +1,11 @@
 package com.example.services.impl;
 
-import com.example.models.entities.BookingEntity;
+import com.example.exceptions.DuplicateRecordException;
+import com.example.exceptions.NotFoundException;
+import com.example.mappers.RoomMapper;
 import com.example.models.entities.LocationEntity;
 import com.example.models.entities.RoomEntity;
-import com.example.models.requests.RoomRequest;
-import com.example.models.responses.BookingReponse;
-import com.example.models.responses.RoomFindAllIndex;
+import com.example.models.requests.RoomCreatedRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.repositories.LocationRepository;
 import com.example.repositories.RoomRepository;
@@ -21,52 +21,87 @@ import java.util.Optional;
 
 @Service
 public class RoomService implements IRoomService {
+
     @Autowired
     private ModelMapper mapper;
 
     @Autowired
     private RoomRepository roomRepository;
+
     @Autowired
     private LocationRepository locationRepository;
 
     @Override
-    public List<RoomResponse> findAll() {
+    public List<RoomResponse> getAll() {
+        List<RoomEntity> room = roomRepository.findAll();
         List<RoomResponse> result = new ArrayList<>();
-        List<RoomEntity> entities = roomRepository.findAll();
-        for (RoomEntity item : entities) {
-            RoomResponse roomDTO = mapper.map(item, RoomResponse.class);
-            result.add(roomDTO);
+        room.forEach(
+                e -> {
+                    RoomResponse roomDTO = mapper.map(e, RoomResponse.class);
+                    result.add(roomDTO);
+                }
+        );
+        List<LocationEntity> location = locationRepository.findAll();
+        for (RoomResponse roomResponse : result) {
+            for (LocationEntity item : location) {
+                if (roomResponse.getLocationId().equals(item.getId())) {
+                    roomResponse.setLocationName(item.getName());
+                }
+            }
         }
         return result;
     }
 
+
     @Override
     @Transactional
-    public RoomResponse save(RoomRequest room) {
-        RoomEntity roomEntity = new RoomEntity();
-        roomEntity = mapper.map(room, RoomEntity.class);
+    public RoomResponse create(RoomCreatedRequest room) {
+        List<RoomEntity> roomEntities = roomRepository.findAll();
+        roomEntities.forEach(
+                e->{
+                    if (e.getName().equals(room.getName())){
+                        throw new DuplicateRecordException("Phòng đã tồn tại trong hệ thống");
+                    }
+                }
+        );
+        RoomEntity roomEntity = mapper.map(room, RoomEntity.class);
         roomEntity = roomRepository.save(roomEntity);
         return mapper.map(roomEntity, RoomResponse.class);
     }
 
     @Override
     @Transactional
-    public boolean delete(long ids) {
-        try {
-            roomRepository.deleteById(ids);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
+    public boolean delete(Long id) {
+        roomRepository.deleteById(id);
+        return true;
     }
+
     @Override
-    public RoomResponse findById(long id) {
-        Optional<RoomEntity> entity = roomRepository.findById(id);
-        return mapper.map(entity.get(), RoomResponse.class);
+    public RoomResponse getById(long id) {
+        Optional<RoomEntity> room = roomRepository.findById(id);
+        if (room.get().getId() != id) {
+            throw new NotFoundException("Room ko ton tai");
+        }
+        return mapper.map(room.get(), RoomResponse.class);
     }
 
-
+    @Override
+    public List<RoomResponse> getByLocation(long id) {
+        Optional<List<RoomEntity>> room = roomRepository.findByLocationId(id);
+        List<RoomResponse> result = new ArrayList<>();
+        for (RoomEntity item : room.get()) {
+            RoomResponse roomDTO = mapper.map(item, RoomResponse.class);
+            result.add(roomDTO);
+        }
+        List<LocationEntity> location = locationRepository.findAll();
+        for (RoomResponse roomResponse : result) {
+            for (LocationEntity item : location) {
+                if (roomResponse.getLocationId().equals(item.getId())) {
+                    roomResponse.setLocationName(item.getName());
+                }
+            }
+        }
+        return result;
+    }
 
 }

@@ -1,55 +1,58 @@
 package com.example.controllers;
 
-import com.example.models.requests.RoomRequest;
-import com.example.models.responses.BookingReponse;
-import com.example.models.responses.RoomFindAllIndex;
+import com.example.models.requests.RoomCreatedRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.services.IRoomService;
-import org.modelmapper.ModelMapper;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@CrossOrigin
 @RestController
+@RequestMapping("/room")
 public class RoomController {
+
     @Autowired
     private IRoomService roomService;
 
-    @Autowired
-    private ModelMapper mapper;
-
-    @GetMapping(value = "/room")
-    public List<RoomResponse> getAll(){
-        return roomService.findAll();
+    @ApiOperation(value = "Get list room", response = RoomResponse.class, responseContainer = "List")
+    @ApiResponses({
+            @ApiResponse(code = 500, message = "")
+    })
+    @GetMapping("")
+    public ResponseEntity<?> getAll() {
+        List<RoomResponse> result = roomService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping(value = "/room/{id}")
-    public RoomResponse getById(@PathVariable("id") long id){
-        return roomService.findById(id);
+    @GetMapping(value = "/{id}")
+    public RoomResponse getById(@PathVariable("id") long id) {
+        return roomService.getById(id);
     }
 
-    @PostMapping(value = "/room")
-    public RoomResponse createRoom(@RequestBody RoomRequest room) {
-        RoomResponse rooms = roomService.save(room);
-        return rooms;
+    @GetMapping(value = "/location/{id}")
+    public List<RoomResponse> getByLocation(@PathVariable("id") long id) {
+        return roomService.getByLocation(id);
     }
 
-    @PutMapping(value = "/room/{id}")
-    public RoomResponse updateNew(@RequestBody RoomRequest model, @PathVariable("id") long id) {
-        model.setId(id);
-        return roomService.save(model);
+    @PostMapping
+    public RoomResponse create(@RequestBody RoomCreatedRequest roomRequest) {
+        return roomService.create(roomRequest);
     }
-//
-//    @DeleteMapping(value = "/room/{id}")
-//    public void deleteNew(@PathVariable("id") long ids) {
-//        roomService.delete(ids);
-//    }
-//    @GetMapping(value = "/room/index")
-//    public List<RoomFindAllIndex> ShowRoomIndex() {
-//
-//        return roomService.findAllRoomIndex();
-//    }
+
+    @PutMapping(value = "/{id}")
+    public RoomResponse update(@PathVariable("id") long id, @RequestBody RoomCreatedRequest roomRequest) {
+//        roomRequest.setId(id);
+        return roomService.create(roomRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") long id) {
+        roomService.delete(id);
+    }
 }

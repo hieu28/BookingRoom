@@ -5,33 +5,30 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
 @Table(name = "room")
 public class RoomEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
-    @NotEmpty(message = "Name not empty")
     private String name;
 
     @Column(name = "location_id")
-    private int locationId;
+    private Long locationId;
 
     @Column(name = "capacity")
-    @Min(value = 1, message = "Sức chứa tối thiểu là 1")
-    @Max(value = 50, message = "Sức chứa tối đa là 50")
     private int capacity;
 
     @Column(name = "description", columnDefinition = "TEXT")
-    @NotEmpty(message = "Mô tả không được để trống")
     private String description;
 
     @Column(name = "image", columnDefinition = "TEXT")
-    @NotEmpty(message = "Ảnh không được để trống")
     private String image;
 
     @Column(name = "status", columnDefinition = "BIT")
@@ -53,11 +50,11 @@ public class RoomEntity {
         this.name = name;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 

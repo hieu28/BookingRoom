@@ -1,13 +1,28 @@
 package com.example.models.responses;
 
+
 public class RoomResponse {
     private Long id;
     private String name;
-    private int locationId;
+    private Long locationId;
     private int capacity;
     private String description;
     private String image;
     private boolean status;
+    private String locationName;
+
+
+    public RoomResponse() {
+    }
+
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
 
     public String getName() {
         return name;
@@ -17,11 +32,11 @@ public class RoomResponse {
         this.name = name;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 

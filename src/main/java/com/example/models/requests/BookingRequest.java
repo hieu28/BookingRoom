@@ -3,21 +3,12 @@ package com.example.models.requests;
 import java.util.Date;
 
 public class BookingRequest {
-    private Long id;
     private Date checkIn;
-    private Date chechOut;
+    private Date checkOut;
     private Long numberOfMember;
     private Long employeeId;
     private Long roomId;
     private String title;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Date getCheckIn() {
         return checkIn;
@@ -27,12 +18,12 @@ public class BookingRequest {
         this.checkIn = checkIn;
     }
 
-    public Date getChechOut() {
-        return chechOut;
+    public Date getCheckOut() {
+        return checkOut;
     }
 
-    public void setChechOut(Date chechOut) {
-        this.chechOut = chechOut;
+    public void setCheckOut(Date checkOut) {
+        this.checkOut = checkOut;
     }
 
     public Long getNumberOfMember() {
@@ -66,4 +57,5 @@ public class BookingRequest {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

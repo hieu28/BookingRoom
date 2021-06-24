@@ -1,38 +1,45 @@
 package com.example.models.responses;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 public class BookingReponse {
+
     private Long id;
-    private Date checkIn;
-    private Date chechOut;
+
+    private OffsetDateTime checkIn;
+
+    private OffsetDateTime checkOut;
+
     private Long numberOfMember;
+
     private Long employeeId;
+
     private Long roomId;
+
     private String title;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getCheckIn() {
+    public OffsetDateTime getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(Date checkIn) {
+    public void setCheckIn(OffsetDateTime checkIn) {
         this.checkIn = checkIn;
     }
 
-    public Date getChechOut() {
-        return chechOut;
+    public OffsetDateTime getCheckOut() {
+        return checkOut;
     }
 
-    public void setChechOut(Date chechOut) {
-        this.chechOut = chechOut;
+    public void setCheckOut(OffsetDateTime checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getNumberOfMember() {
