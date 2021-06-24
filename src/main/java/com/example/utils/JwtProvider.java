@@ -62,7 +62,7 @@ public class JwtProvider {
         Instant issuaAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuaAt.plus(3, ChronoUnit.HOURS);
 
-        List<EmployeeResponse> employee = employeeService.findByEmail(email);
+        List<EmployeeResponse> employee = employeeService.searchEmail(email);
         long userid = employee.get(0).getId();
 
         return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(Date.from(issuaAt))

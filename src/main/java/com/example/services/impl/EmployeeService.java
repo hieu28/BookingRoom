@@ -1,5 +1,7 @@
 package com.example.services.impl;
 
+import com.example.exceptions.DuplicateRecordException;
+import com.example.models.entities.DepartmentEntity;
 import com.example.models.entities.EmployeeEntity;
 import com.example.models.requests.EmployeeRequest;
 import com.example.models.responses.EmployeeResponse;
@@ -9,8 +11,9 @@ import com.example.services.IEmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService implements IEmployeeService {
+
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -28,62 +32,71 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-    @Transactional
-    public EmployeeResponse save(EmployeeRequest employee) {
-
-        EmployeeEntity employeeEntity = modelMapper.map(employee, EmployeeEntity.class);
-        employeeEntity = employeeRepository.save(employeeEntity);
-
-        return modelMapper.map(employeeEntity, EmployeeResponse.class);
+    public EmployeeResponse create(EmployeeRequest employee) {
+        List<EmployeeEntity> employeeEntity = employeeRepository.findAll();
+        for (EmployeeEntity emp : employeeEntity) {
+            if (emp.getEmail().equals(employee.getEmail())) {
+                throw new DuplicateRecordException("Email already exists in the system");
+            }
+        }
+        EmployeeEntity em = modelMapper.map(employee, EmployeeEntity.class);
+        em.setPassword(passwordEncoder.encode("123456a@"));
+        em = employeeRepository.save(em);
+        return modelMapper.map(em, EmployeeResponse.class);
     }
 
     @Override
-    @Transactional
     public boolean delete(Long id) {
 
         try {
             employeeRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    @Transactional
     public EmployeeResponse findById(Long id) {
-
-        Optional<EmployeeEntity> room = employeeRepository.findById(id);
-        return modelMapper.map(room.get(), EmployeeResponse.class);
+        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
+        return modelMapper.map(employeeEntity.get(), EmployeeResponse.class);
     }
 
     @Override
-    @Transactional
     public List<EmployeeResponse> findAll() {
 
-        List<EmployeeResponse> r = new ArrayList<>();
-        List<EmployeeEntity> entities = employeeRepository.findAll();
-        for (EmployeeEntity item : entities) {
+        List<EmployeeResponse> employeeResponses = new ArrayList<>();
+        List<EmployeeEntity> employeeEntity = employeeRepository.findAll();
+        for (EmployeeEntity item : employeeEntity) {
             EmployeeResponse employee = modelMapper.map(item, EmployeeResponse.class);
-            r.add(employee);
+            employeeResponses.add(employee);
         }
-        return r;
+        List<DepartmentEntity> departmentEntity = deprtmentRepository.findAll();
+        for (EmployeeResponse employeeResponse : employeeResponses) {
+            for (DepartmentEntity item : departmentEntity) {
+                if (employeeResponse.getDepartmentId() == item.getId()) {
+                    employeeResponse.setDepartmentName(item.getName());
+                }
+            }
+        }
+        return employeeResponses;
     }
 
     @Override
-    @Transactional
-    public List<EmployeeResponse> findByEmail(String email) {
-
+    public List<EmployeeResponse> searchEmail(String email) {
         try {
-            List<EmployeeEntity> epl = employeeRepository.search(email);
-            List<EmployeeResponse> eo = new ArrayList<>();
-            for (EmployeeEntity item : epl) {
+            List<EmployeeEntity> employeeEntity = employeeRepository.search(email);
+            List<EmployeeResponse> employeeResponse = new ArrayList<>();
+            for (EmployeeEntity item : employeeEntity) {
                 EmployeeResponse employee = modelMapper.map(item, EmployeeResponse.class);
-                eo.add(employee);
+                employeeResponse.add(employee);
             }
-            return eo;
+            return employeeResponse;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -91,7 +104,6 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    @Transactional
     public List<EmployeeResponse> findAllPaging(Pageable pageable) {
 
         List<EmployeeResponse> results = new ArrayList<>();
@@ -108,13 +120,6 @@ public class EmployeeService implements IEmployeeService {
         return (int) employeeRepository.count();
     }
 
-    @Override
-    public void deleteList(long[] ids) {
-
-        for (long item : ids) {
-            employeeRepository.deleteById(item);
-        }
-    }
 
 }
 

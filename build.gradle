@@ -25,7 +25,6 @@ dependencies {
     implementation group: 'org.springframework.boot',name:'spring-boot-starter-data-redis'
     implementation group: 'org.springframework.boot',name: 'spring-boot-starter'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.10.RELEASE'
-
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

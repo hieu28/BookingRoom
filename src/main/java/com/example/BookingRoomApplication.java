@@ -14,8 +14,5 @@ public class BookingRoomApplication {
         SpringApplication.run(BookingRoomApplication.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 }

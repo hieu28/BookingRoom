@@ -2,7 +2,6 @@ package com.example.models.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employee")
@@ -12,32 +11,24 @@ public class EmployeeEntity {
     private long id;
 
     @Column(name = "name")
-    @NotNull
-    @Size(max = 50, min = 2, message = "Name must be at least 2 characters and maximum 50 characterss")
-
     private String name;
 
-    @NotNull(message = "Please enter the phone number")
     @Column(name = "phone")
     private String phone;
 
     @Column(name = "email")
-    @NotNull(message = "Please enter email")
     private String email;
 
     @Column(name = "password")
-    @NotNull(message = "PLease enter password")
     private String password;
 
     @Column(name = "department_id")
     private long departmentId;
 
     @Column(name = "image")
-    @NotNull(message = "PLease enter image")
     private String image;
 
     @Column(name = "role")
-    @NotNull(message = "PLease enter role")
     private String role;
 
 
@@ -51,7 +42,6 @@ public class EmployeeEntity {
     public void setRole(String role) {
         this.role = role;
     }
-
 
     public long getId() {
         return id;
