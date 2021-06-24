@@ -19,9 +19,11 @@ public class BookingDetailService implements IBookingDetailService {
 
     @Override
     public BookingReponse save(BookingDetailRequest bookingDetail) {
+
         BookingDetailEntity bookingDetailEntity = new BookingDetailEntity();
         bookingDetailEntity = mapper.map(bookingDetail, BookingDetailEntity.class);
         bookingDetailEntity = bookingDetailRepository.save(bookingDetailEntity);
         return mapper.map(bookingDetailEntity, BookingReponse.class);
+
     }
 }

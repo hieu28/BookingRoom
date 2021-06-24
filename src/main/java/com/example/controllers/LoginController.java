@@ -35,9 +35,8 @@ public class LoginController {
         return new ResponseEntity<>(new JwtResponse(token, jwtRequest.getUsername()), HttpStatus.OK);
     }
 
-
     @PostMapping("/logout")
-    public ResponseEntity<?> Logout(@RequestParam(name ="jwt") String jwt, String username ){
+    public ResponseEntity<?> Logout(@RequestParam(name ="jwt") String jwt){
         loginService.LogoutUser(jwt);
         return new ResponseEntity<>("log out thanh cong", HttpStatus.OK);
     }

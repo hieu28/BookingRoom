@@ -1,9 +1,11 @@
 package com.example.services.impl;
 
-import com.example.models.entities.*;
+import com.example.models.entities.BookingEntity;
+import com.example.models.entities.EmployeeBookingEntity;
+import com.example.models.entities.EmployeeEntity;
+import com.example.models.entities.RoomEntity;
 import com.example.models.requests.EmployeeBookingRequest;
 import com.example.models.responses.EmployeeBookingResponse;
-import com.example.models.responses.EmployeeResponse;
 import com.example.repositories.BookingRepository;
 import com.example.repositories.EmployeeBookingRepository;
 import com.example.repositories.EmployeeRepository;

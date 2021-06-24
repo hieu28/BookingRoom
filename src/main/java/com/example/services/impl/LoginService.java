@@ -13,28 +13,30 @@ import java.util.Optional;
 
 @Service
 public class LoginService {
-    private final EmployeeService employeeService;
+
     private final EmployeeRepository employeeRepository;
     private final RedisTemplate<Object, Object> template;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public LoginService(EmployeeService employeeService, EmployeeRepository employeeRepository, RedisTemplate<Object, Object> template) {
+    public LoginService(EmployeeRepository employeeRepository, RedisTemplate<Object, Object> template, PasswordEncoder passwordEncoder) {
         this.template = template;
         this.employeeRepository = employeeRepository;
-        this.employeeService = employeeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public EmployeeEntity checkUser(String email, String password) {
+
         Optional<EmployeeEntity> employeeOptional = employeeRepository.findByEmail(email);
+
         if (!employeeOptional.isPresent()) {
             throw new UsernameNotFound();
         }
+
         if (!passwordEncoder.matches(password, employeeOptional.get().getPassword().trim())) {
             throw new PasswordNotFound();
         }
+
         return employeeOptional.get();
     }
 

@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class LocationService implements ILocationService {
 
     @Override
     public LocationResponse save(LocationResponse locationResponse) {
-        LocationEntity  locationEntity = new LocationEntity();
+        LocationEntity  locationEntity;
         locationEntity = mapper.map(locationResponse, LocationEntity.class);
         locationEntity = locationRepository.save(locationEntity);
         return mapper.map(locationEntity, LocationResponse.class);
@@ -36,7 +35,7 @@ public class LocationService implements ILocationService {
 
     @Override
     public LocationResponse getLocationById(Long id) {
-        LocationEntity locationEntity = new LocationEntity();
+        LocationEntity locationEntity;
         locationEntity = locationRepository.findOneById(id);
         return mapper.map(locationEntity, LocationResponse.class);
     }
