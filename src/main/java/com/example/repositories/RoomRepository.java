@@ -13,7 +13,4 @@ import java.util.Optional;
 @Repository
 public interface RoomRepository extends JpaRepository<RoomEntity,Long> {
     Optional<List<RoomEntity>> findByLocationId(Long id);
-
-    @Query(value = "DELETE  from RoomEntity r where r.id in (: ids)" )
-    void delete(@Param("ids") Long[] ids);
 }
