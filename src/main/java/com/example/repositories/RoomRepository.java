@@ -13,5 +13,4 @@ import java.util.Optional;
 @Repository
 public interface RoomRepository extends JpaRepository<RoomEntity,Long> {
     Optional<List<RoomEntity>> findByLocationId(Long id);
-    void deleteAllByIdIn(List<Long> id);
 }

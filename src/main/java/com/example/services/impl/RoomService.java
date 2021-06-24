@@ -1,8 +1,11 @@
 package com.example.services.impl;
 
+import com.example.exceptions.DuplicateRecordException;
+import com.example.exceptions.NotFoundException;
+import com.example.mappers.RoomMapper;
 import com.example.models.entities.LocationEntity;
 import com.example.models.entities.RoomEntity;
-import com.example.models.requests.RoomRequest;
+import com.example.models.requests.RoomCreatedRequest;
 import com.example.models.responses.RoomResponse;
 import com.example.repositories.LocationRepository;
 import com.example.repositories.RoomRepository;
@@ -18,10 +21,13 @@ import java.util.Optional;
 
 @Service
 public class RoomService implements IRoomService {
+
     @Autowired
     private ModelMapper mapper;
+
     @Autowired
     private RoomRepository roomRepository;
+
     @Autowired
     private LocationRepository locationRepository;
 
@@ -29,7 +35,7 @@ public class RoomService implements IRoomService {
     public List<RoomResponse> getAll() {
         List<RoomEntity> room = roomRepository.findAll();
         List<RoomResponse> result = new ArrayList<>();
-        room.stream().forEach(
+        room.forEach(
                 e -> {
                     RoomResponse roomDTO = mapper.map(e, RoomResponse.class);
                     result.add(roomDTO);
@@ -38,7 +44,7 @@ public class RoomService implements IRoomService {
         List<LocationEntity> location = locationRepository.findAll();
         for (RoomResponse roomResponse : result) {
             for (LocationEntity item : location) {
-                if (roomResponse.getLocationId() == item.getId()) {
+                if (roomResponse.getLocationId().equals(item.getId())) {
                     roomResponse.setLocationName(item.getName());
                 }
             }
@@ -49,23 +55,33 @@ public class RoomService implements IRoomService {
 
     @Override
     @Transactional
-    public RoomResponse create(RoomRequest room) {
-        RoomEntity roomEntity = new RoomEntity();
-        roomEntity = mapper.map(room, RoomEntity.class);
+    public RoomResponse create(RoomCreatedRequest room) {
+        List<RoomEntity> roomEntities = roomRepository.findAll();
+        roomEntities.forEach(
+                e->{
+                    if (e.getName().equals(room.getName())){
+                        throw new DuplicateRecordException("Phòng đã tồn tại trong hệ thống");
+                    }
+                }
+        );
+        RoomEntity roomEntity = mapper.map(room, RoomEntity.class);
         roomEntity = roomRepository.save(roomEntity);
         return mapper.map(roomEntity, RoomResponse.class);
     }
 
     @Override
     @Transactional
-    public void delete(List<Long> ids) {
-        roomRepository.deleteAllByIdIn(ids);
-
+    public boolean delete(Long id) {
+        roomRepository.deleteById(id);
+        return true;
     }
 
     @Override
     public RoomResponse getById(long id) {
         Optional<RoomEntity> room = roomRepository.findById(id);
+        if (room.get().getId() != id) {
+            throw new NotFoundException("Room ko ton tai");
+        }
         return mapper.map(room.get(), RoomResponse.class);
     }
 

@@ -1,9 +1,7 @@
 package com.example.services;
 
 import com.example.models.requests.EmployeeBookingRequest;
-import com.example.models.requests.RoomRequest;
 import com.example.models.responses.EmployeeBookingResponse;
-import com.example.models.responses.RoomResponse;
 
 import java.util.List;
 
