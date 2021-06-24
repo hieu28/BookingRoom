@@ -1,6 +1,5 @@
 package com.example.models.responses;
 
-import java.util.Date;
 
 public class RoomResponse {
     private Long id;

@@ -1,13 +1,12 @@
 package com.example.utils;
 
 import com.example.exceptions.JwtNotFound;
-import com.example.exceptions.JwtSingnatureException;
+import com.example.exceptions.JwtSingnature;
 import com.example.models.responses.EmployeeResponse;
 import com.example.services.impl.EmployeeService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -66,16 +65,13 @@ public class JwtProvider {
         List<EmployeeResponse> employee = employeeService.findByEmail(email);
         long userid = employee.get(0).getId();
 
-
         return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(Date.from(issuaAt))
                 .setExpiration(Date.from(expiration)).claim("user-id", userid)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
     public Boolean validateToken(String token, String email) {
-
             return (email.equals(template.opsForValue().get(token)) && !isTokenExpired(token));
-
     }
 
     public Boolean CheckToken(String authorizationHeader) {
@@ -85,8 +81,10 @@ public class JwtProvider {
             String email = getAllClaimsFromToken(token).getSubject();
             return validateToken(token, email);
         }catch (SignatureException e){
-            throw new JwtSingnatureException();
+            throw new JwtNotFound();
         }catch (MalformedJwtException e) {
+            throw new JwtNotFound();
+        }catch (ExpiredJwtException ex) {
             throw new JwtNotFound();
         }
 

@@ -1,4 +1,5 @@
 package com.example.Interceptors;
+import com.example.exceptions.JwtNotFound;
 import com.example.utils.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,9 @@ import java.util.regex.Pattern;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-
+    private static final String[] AllowApi = {"^/login$", "^/login?error", "^/error",
+            "^/v2/api-docs$", "^/configuration/ui$", "^/swagger-resources$","^/swagger-resources/\\**$",
+            "^/swagger-ui.html$", "^/webjars/\\**$","^/swagger-resources/configuration/ui$","^/swagger-ui.html$"};
     private final JwtProvider jwtProvider;
 
     @Autowired
@@ -17,8 +20,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         this.jwtProvider = jwtProvider;
     }
 
-
-    private static final String[] AllowApi = {"^/login$", "^/login?error", "^/error"};
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -29,12 +30,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 
-            response.getWriter().write("error invaild token");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.setStatus(401);
+             throw new JwtNotFound();
 
-            return false;
         }
 
         if (authorizationHeader.startsWith("Bearer ")) {
@@ -48,7 +45,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         return true;
-
     }
 
     private boolean AllowApiInterceptor(HttpServletRequest request) {
@@ -57,6 +53,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
             Pattern pattern = Pattern.compile(allowApi);
             String url = request.getRequestURI();
+
             boolean matches = pattern
                     .matcher(url)
                     .matches();
