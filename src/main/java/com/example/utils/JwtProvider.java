@@ -59,6 +59,7 @@ public class JwtProvider {
     }
 
     private String doGenerateToken(Map<String, Object> claims, String email) {
+
         Instant issuaAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant expiration = issuaAt.plus(3, ChronoUnit.HOURS);
 
@@ -71,20 +72,21 @@ public class JwtProvider {
     }
 
     public Boolean validateToken(String token, String email) {
-            return (email.equals(template.opsForValue().get(token)) && !isTokenExpired(token));
+        return (email.equals(template.opsForValue().get(token)) && !isTokenExpired(token));
     }
 
     public Boolean CheckToken(String authorizationHeader) {
         try {
-            String token = authorizationHeader.substring(7);
 
+            String token = authorizationHeader.substring(7);
             String email = getAllClaimsFromToken(token).getSubject();
+
             return validateToken(token, email);
-        }catch (SignatureException e){
+        } catch (SignatureException e) {
             throw new JwtNotFound();
-        }catch (MalformedJwtException e) {
+        } catch (MalformedJwtException e) {
             throw new JwtNotFound();
-        }catch (ExpiredJwtException ex) {
+        } catch (ExpiredJwtException ex) {
             throw new JwtNotFound();
         }
 

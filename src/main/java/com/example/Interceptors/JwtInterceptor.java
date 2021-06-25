@@ -31,17 +31,11 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 
              throw new JwtNotFound();
-
         }
 
         if (authorizationHeader.startsWith("Bearer ")) {
 
             return jwtProvider.CheckToken(authorizationHeader);
-//
-//            response.getWriter().write(" Unauthorize");
-//            response.setContentType("application/json");
-//            response.setCharacterEncoding("UTF-8");
-//            response.setStatus(401);
         }
 
         return true;
